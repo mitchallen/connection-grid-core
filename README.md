@@ -1,7 +1,7 @@
 
 @mitchallen/connection-grid-core
 ==
-PUT DESCRIPTION HERE
+Connection grid core
 --
 * * *
 ## Installation
@@ -14,6 +14,36 @@ You must use __npm__ __2.7.0__ or higher because of the scoped package name.
 * * *
 
 ## Usage
+
+
+    "use strict";
+    
+    var gridFactory = require("@mitchallen/connection-grid-core"),
+    				  gridSquare = require('@mitchallen/grid-square')
+    
+	var sourceGrid = gridSquare.create({ x: 5, y: 6 });
+	
+    var _dirMap = { 
+        "N": 0x010, 
+        "S": 0x020, 
+        "E": 0x040, 
+        "W": 0x080 };
+
+    let _oppositeMap = { "E": "W", "W": "E", "N": "S", "S": "N" };
+
+    var cg = gridFactory.create({  
+        grid: sourceGrid,     
+        dirMap: _dirMap,
+        oppositeMap: _oppositeMap 
+    })
+
+
+## Browser Usage:
+
+    var factory = window.MitchAllen.ConnectionGridCore;
+    console.log(factory);
+
+* * *
 
 ## Testing
 
