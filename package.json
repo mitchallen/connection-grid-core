@@ -9,7 +9,10 @@
     "test": "grunt && /usr/local/bin/mocha --recursive --timeout 20000",
     "test-nodemon": "nodemon /usr/local/bin/mocha --timeout 5000",
     "test-debug": "grunt && /usr/local/bin/mocha -g '@DEBUG' --recursive --timeout 20000",
-    "test-jenkins": "grunt && --recursive --timeout 20000 -R xunit test/ > test-reports.xml"
+    "test-jenkins": "grunt && --recursive --timeout 20000 -R xunit test/ > test-reports.xml",
+    "//": "Usage:> [PORT=8002] npm run web-server",
+    "web-server": "python -m SimpleHTTPServer $PORT || 8000"
+
   },
   "repository": {
     "type": "git",

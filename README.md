@@ -434,6 +434,11 @@ Add unit tests for any new or changed functionality. Lint and test your code.
 
 ## Version History
 
+#### Version 0.1.4
+
+* added web-server to npm scripts
+* added message in client example HTML to check JavaScript console
+
 #### Version 0.1.3
 
 * fixed issue with documentation tag
