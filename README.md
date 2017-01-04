@@ -117,7 +117,7 @@ Connection Grid Core
 <a name="module_connection-grid-core+isDir"></a>
 
 ### connection-grid-core.isDir(dir) ⇒ <code>boolean</code>
-Returns true if string is found in _DIR_MAP array.
+Returns true if string is found in DIR_MAP array.
 
 **Kind**: instance method of <code>[connection-grid-core](#module_connection-grid-core)</code>  
 
@@ -132,7 +132,7 @@ if(core.isDir("N")) ...
 <a name="module_connection-grid-core+getOppositeDir"></a>
 
 ### connection-grid-core.getOppositeDir(dir) ⇒ <code>string</code>
-Returns opposite direction based on _OPPOSITE array.
+Returns opposite direction based on OPPOSITE array.
 
 **Kind**: instance method of <code>[connection-grid-core](#module_connection-grid-core)</code>  
 
@@ -433,6 +433,12 @@ Add unit tests for any new or changed functionality. Lint and test your code.
 * * *
 
 ## Version History
+
+#### Version 0.1.2 
+
+* added __open__ method
+* integrated jsdoc
+* updated documentation
 
 #### Version 0.1.1 
 
