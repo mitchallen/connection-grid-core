@@ -5,7 +5,7 @@
 <dd><p>Connection Grid Core</p>
 </dd>
 <dt><a href="#module_connection-grid-core-factory">connection-grid-core-factory</a></dt>
-<dd><p>A module for generating square mazes</p>
+<dd><p>A module for generating grid cores</p>
 </dd>
 </dl>
 
@@ -291,7 +291,7 @@ if(core.connectsAny(1,2,["N","W"]) ...
 <a name="module_connection-grid-core-factory"></a>
 
 ## connection-grid-core-factory
-A module for generating square mazes
+A module for generating grid cores
 
 <a name="module_connection-grid-core-factory.create"></a>
 

@@ -86,7 +86,7 @@ You must use __npm__ __2.7.0__ or higher because of the scoped package name.
 <dd><p>Connection Grid Core</p>
 </dd>
 <dt><a href="#module_connection-grid-core-factory">connection-grid-core-factory</a></dt>
-<dd><p>A module for generating square mazes</p>
+<dd><p>A module for generating grid cores</p>
 </dd>
 </dl>
 
@@ -433,6 +433,10 @@ Add unit tests for any new or changed functionality. Lint and test your code.
 * * *
 
 ## Version History
+
+#### Version 0.1.5
+
+* fixed issue with documentation
 
 #### Version 0.1.4
 

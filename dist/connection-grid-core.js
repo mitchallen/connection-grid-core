@@ -19,7 +19,7 @@ var shuffleFactory = _dereq_("@mitchallen/shuffle");
 
 /**
  * 
- * A module for generating square mazes
+ * A module for generating grid cores
  * @module connection-grid-core-factory
  */
 
