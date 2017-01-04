@@ -79,7 +79,7 @@ module.exports.create = (spec) => {
           * @instance
           * @memberof module:connection-grid-core
           * @returns {boolean}
-          * @example <caption>console output</caption>
+          * @example <caption>usage</caption>
           * if(core.isDir("N")) ...
          */
         isDir: function(dir) {
@@ -94,7 +94,7 @@ module.exports.create = (spec) => {
           * @instance
           * @memberof module:connection-grid-core
           * @returns {string}
-          * @example <caption>console output</caption>
+          * @example <caption>usage</caption>
           * core.getOppositeDir("N").should.eql("S");
          */
         getOppositeDir: function(dir) {
@@ -110,7 +110,7 @@ module.exports.create = (spec) => {
           * @instance
           * @memberof module:connection-grid-core
           * @returns {string}
-          * @example <caption>console output</caption>
+          * @example <caption>usage</caption>
           * var neighbor = core.getNeighbor(1,2,"N");
          */
         getNeighbor: function(x, y, dir) {
@@ -126,7 +126,7 @@ module.exports.create = (spec) => {
           * @function
           * @instance
           * @memberof module:connection-grid-core
-          * @example <caption>console output</caption>
+          * @example <caption>usage</caption>
           * var neighbors = core.getNeighborDirs(1,2);
          */
         getNeighborDirs: function(x, y) {
@@ -142,7 +142,7 @@ module.exports.create = (spec) => {
           * @function
           * @instance
           * @memberof module:connection-grid-core
-          * @example <caption>console output</caption>
+          * @example <caption>usage</caption>
           * var neighbors = core.getShuffledNeighborDirs(1,2);
          */
         getShuffledNeighborDirs: function( x, y ) {
@@ -156,7 +156,7 @@ module.exports.create = (spec) => {
           * @instance
           * @returns {boolean}
           * @memberof module:connection-grid-core
-          * @example <caption>console output</caption>
+          * @example <caption>usage</caption>
           * core.markVisited(1,2);
          */
         markVisited: function( x, y )  {
@@ -169,7 +169,7 @@ module.exports.create = (spec) => {
           * @instance
           * @returns {boolean}
           * @memberof module:connection-grid-core
-          * @example <caption>console output</caption>
+          * @example <caption>usage</caption>
           * if(core.visited(x)) ...
          */
         visited: function(x, y) {
@@ -184,7 +184,7 @@ module.exports.create = (spec) => {
           * @instance
           * @returns {boolean}
           * @memberof module:connection-grid-core
-          * @example <caption>console output</caption>
+          * @example <caption>usage</caption>
           * core.mask(1,2)
          */
         mask: function( x, y )  {
@@ -197,7 +197,7 @@ module.exports.create = (spec) => {
           * @instance
           * @returns {boolean}
           * @memberof module:connection-grid-core
-          * @example <caption>console output</caption>
+          * @example <caption>usage</caption>
           * if(core.isMasked(1,2)) ...
          */
         isMasked: function( x, y )  {
@@ -211,7 +211,7 @@ module.exports.create = (spec) => {
           * @instance
           * @returns {boolean}
           * @memberof module:connection-grid-core
-          * @example <caption>console output</caption>
+          * @example <caption>usage</caption>
           * if(core.hasConnections(1,2)) ...
          */
         hasConnections: function(x, y) {
@@ -242,7 +242,7 @@ module.exports.create = (spec) => {
           * @function
           * @instance
           * @memberof module:connection-grid-core
-          * @example <caption>console output</caption>
+          * @example <caption>usage</caption>
           * core.open(0,0,"N");
          */
         open: function( x, y, dir ) {
@@ -261,7 +261,7 @@ module.exports.create = (spec) => {
           * @instance
           * @returns {boolean}
           * @memberof module:connection-grid-core
-          * @example <caption>console output</caption>
+          * @example <caption>usage</caption>
           * if(core.connect(1,2,"N")) ...
          */
         connect: function( x, y, dir ) {
@@ -280,7 +280,7 @@ module.exports.create = (spec) => {
           * @instance
           * @returns {boolean}
           * @memberof module:connection-grid-core
-          * @example <caption>console output</caption>
+          * @example <caption>usage</caption>
           * if(core.connectUndirected(1,2,"N")) ...
          */
         connectUndirected: function(x, y, sDir) {
@@ -303,7 +303,7 @@ module.exports.create = (spec) => {
           * @function
           * @instance
           * @memberof module:connection-grid-core
-          * @example <caption>console output</caption>
+          * @example <caption>usage</caption>
           * if(core.connects(1,2,"N")) ...
          */
         connects: function(x,y,sDir) {
@@ -324,7 +324,7 @@ module.exports.create = (spec) => {
           * @instance
           * @returns {boolean}
           * @memberof module:connection-grid-core
-          * @example <caption>console output</caption>
+          * @example <caption>usage</caption>
           * if(core.connectsAny(1,2,["N","W"]) ...
          */
         connectsAny: function(x,y,list) {

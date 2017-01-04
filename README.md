@@ -125,7 +125,7 @@ Returns true if string is found in DIR_MAP array.
 | --- | --- | --- |
 | dir | <code>string</code> | A string representing a direction |
 
-**Example** *(console output)*  
+**Example** *(usage)*  
 ```js
 if(core.isDir("N")) ...
 ```
@@ -140,7 +140,7 @@ Returns opposite direction based on OPPOSITE array.
 | --- | --- | --- |
 | dir | <code>string</code> | A string representing a direction |
 
-**Example** *(console output)*  
+**Example** *(usage)*  
 ```js
 core.getOppositeDir("N").should.eql("S");
 ```
@@ -158,7 +158,7 @@ Returns the neighbor in a particular direction for a cell at x,y.
 | y | <code>number</code> | The y coordinate |
 | dir | <code>string</code> | A string representing a direction |
 
-**Example** *(console output)*  
+**Example** *(usage)*  
 ```js
 var neighbor = core.getNeighbor(1,2,"N");
 ```
@@ -176,7 +176,7 @@ Classic square grids ignore x and y, but other derived classes, like hexagon, ma
 | x | <code>number</code> | The x coordinate |
 | y | <code>number</code> | The y coordinate |
 
-**Example** *(console output)*  
+**Example** *(usage)*  
 ```js
 var neighbors = core.getNeighborDirs(1,2);
 ```
@@ -193,7 +193,7 @@ Useful for generating random mazes.
 | x | <code>number</code> | The x coordinate |
 | y | <code>number</code> | The y coordinate |
 
-**Example** *(console output)*  
+**Example** *(usage)*  
 ```js
 var neighbors = core.getShuffledNeighborDirs(1,2);
 ```
@@ -209,7 +209,7 @@ Marks a cell at x,y as visited.
 | x | <code>number</code> | The x coordinate |
 | y | <code>number</code> | The y coordinate |
 
-**Example** *(console output)*  
+**Example** *(usage)*  
 ```js
 core.markVisited(1,2);
 ```
@@ -225,7 +225,7 @@ Returns true if a cell at x,y exists and it has been marked as visited.
 | x | <code>number</code> | The x coordinate |
 | y | <code>number</code> | The y coordinate |
 
-**Example** *(console output)*  
+**Example** *(usage)*  
 ```js
 if(core.visited(x)) ...
 ```
@@ -242,7 +242,7 @@ Useful for maze generators to mark cells to skip
 | x | <code>number</code> | The x coordinate |
 | y | <code>number</code> | The y coordinate |
 
-**Example** *(console output)*  
+**Example** *(usage)*  
 ```js
 core.mask(1,2)
 ```
@@ -258,7 +258,7 @@ Returns true if a cell at x,y has been marked using [mask](#module_connection-gr
 | x | <code>number</code> | The x coordinate |
 | y | <code>number</code> | The y coordinate |
 
-**Example** *(console output)*  
+**Example** *(usage)*  
 ```js
 if(core.isMasked(1,2)) ...
 ```
@@ -274,7 +274,7 @@ Returns true if a cell at x,y has connections.
 | x | <code>number</code> | The x coordinate |
 | y | <code>number</code> | The y coordinate |
 
-**Example** *(console output)*  
+**Example** *(usage)*  
 ```js
 if(core.hasConnections(1,2)) ...
 ```
@@ -293,7 +293,7 @@ Useful for mazes that need to open up border walls.
 | y | <code>number</code> | The y coordinate |
 | dir | <code>string</code> | A string representing a direction |
 
-**Example** *(console output)*  
+**Example** *(usage)*  
 ```js
 core.open(0,0,"N");
 ```
@@ -311,7 +311,7 @@ Returns false if the cell in the target direction does not exist.
 | y | <code>number</code> | The y coordinate |
 | dir | <code>string</code> | A string representing a direction |
 
-**Example** *(console output)*  
+**Example** *(usage)*  
 ```js
 if(core.connect(1,2,"N")) ...
 ```
@@ -330,7 +330,7 @@ Returns false if the cell in the target direction does not exist.
 | y | <code>number</code> | The y coordinate |
 | dir | <code>string</code> | A string representing a direction |
 
-**Example** *(console output)*  
+**Example** *(usage)*  
 ```js
 if(core.connectUndirected(1,2,"N")) ...
 ```
@@ -348,7 +348,7 @@ It does not matter if a the target cell exists such as when [open](#module_conne
 | y | <code>number</code> | The y coordinate |
 | dir | <code>string</code> | A string representing a direction |
 
-**Example** *(console output)*  
+**Example** *(usage)*  
 ```js
 if(core.connects(1,2,"N")) ...
 ```
@@ -365,7 +365,7 @@ Returns true if a cell connects to a neighbor cell in any direction in the list.
 | y | <code>number</code> | The y coordinate |
 | list | <code>array</code> | An array of strings that each represent a direction |
 
-**Example** *(console output)*  
+**Example** *(usage)*  
 ```js
 if(core.connectsAny(1,2,["N","W"]) ...
 ```
@@ -433,6 +433,10 @@ Add unit tests for any new or changed functionality. Lint and test your code.
 * * *
 
 ## Version History
+
+#### Version 0.1.6
+
+* fixed issue with documentation
 
 #### Version 0.1.5
 
