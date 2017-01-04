@@ -240,4 +240,21 @@ describe('module smoke test', function() {
         cg.getOppositeDir("N").should.eql("S");
         done();
     });
+
+    it('open should connect a cell in the designated direction', function(done) {
+        var xSize = 5,
+            ySize = 6;
+        var sourceGrid = gridSquare.create({ x: xSize, y: ySize });
+        var cg = _module.create({  
+            grid: sourceGrid,     
+            dirMap: _dirMap,
+            oppositeMap: _oppositeMap 
+        });
+        let tX = 0;
+        let tY = 0;
+        cg.connects(tX,tY,"N").should.eql(false);
+        cg.open(tX,tY,"N").should.eql(true);
+        cg.connects(tX,tY,"N").should.eql(true);
+        done();
+    });
 });
