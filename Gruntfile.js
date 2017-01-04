@@ -3,6 +3,10 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-bump');
     grunt.loadNpmTasks('grunt-shell');
+    grunt.loadNpmTasks("grunt-browserify");
+    grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks("grunt-contrib-watch");
+    grunt.loadNpmTasks('grunt-jsdoc-to-markdown');
 
     grunt.initConfig({
 
@@ -72,16 +76,21 @@ module.exports = function (grunt) {
                 files: ["./modules/*.js"],
                 tasks: ["browserify",'uglify']
              }
+        },
+
+        jsdoc2md: {
+            oneOutputFile: {
+                src: 'modules/*.js',
+                dest: 'DOC-API.md'
+            }
         }
     });
 
-    grunt.loadNpmTasks("grunt-browserify");
-    grunt.loadNpmTasks('grunt-contrib-uglify');
-    grunt.loadNpmTasks("grunt-contrib-watch");
-
-    grunt.registerTask('default', ['jshint','browserify','uglify']);
+    grunt.registerTask('default', ['build']);
     grunt.registerTask('monitor', ['jshint','watch']);
-    grunt.registerTask("build", ['browserify','uglify']);
-    grunt.registerTask('pubinit', ['jshint','browserify','uglify','shell:pubinit']);
-    grunt.registerTask('publish', ['jshint','browserify','uglify','bump','shell:publish']);
+    grunt.registerTask('build-doc', ['jsdoc2md']);
+    grunt.registerTask("build", ['jshint','build-doc','browserify','uglify']);
+    grunt.registerTask('pubinit', ['build','shell:pubinit']);
+    grunt.registerTask('publish', ['build','bump','shell:publish']);
+
 };
