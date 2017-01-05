@@ -156,7 +156,7 @@ core.getOppositeDir("N").should.eql("S");
 
 ### connection-grid-core.getNeighbor(x, y, dir) ⇒ <code>string</code>
 Returns the neighbor in a particular direction for a cell at x,y.
-<b>This should be overriden by base class</b>
+<b>This should be overriden by derived class</b>
 
 **Kind**: instance method of <code>[connection-grid-core](#module_connection-grid-core)</code>  
 
@@ -174,7 +174,7 @@ var neighbor = core.getNeighbor(1,2,"N");
 
 ### connection-grid-core.getNeighborDirs(x, y)
 Returns the neighbor directions for a cell at x,y.
-<b>This should be overriden by base class</b>.
+<b>This should be overriden by derived class</b>.
 Classic square grids ignore x and y, but other derived classes, like hexagon, may not.
 
 **Kind**: instance method of <code>[connection-grid-core](#module_connection-grid-core)</code>  
@@ -423,7 +423,6 @@ Grid Core
 **Kind**: global external  
 **See**: [@mitchallen/grid-core](https://www.npmjs.com/package/@mitchallen/grid-core)  
 
-
 * * *
 
 ## Testing
@@ -449,6 +448,10 @@ Add unit tests for any new or changed functionality. Lint and test your code.
 * * *
 
 ## Version History
+
+#### Version 0.1.8
+
+* corrected reference to derived class in documentation
 
 #### Version 0.1.7
 

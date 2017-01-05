@@ -111,7 +111,7 @@ module.exports.create = function (spec) {
             return _OPPOSITE[dir];
         },
         /** Returns the neighbor in a particular direction for a cell at x,y.
-          * <b>This should be overriden by base class</b>
+          * <b>This should be overriden by derived class</b>
           * @param {number} x The x coordinate
           * @param {number} y The y coordinate
           * @param {string} dir A string representing a direction
@@ -128,7 +128,7 @@ module.exports.create = function (spec) {
             return null;
         },
         /** Returns the neighbor directions for a cell at x,y.
-          * <b>This should be overriden by base class</b>.
+          * <b>This should be overriden by derived class</b>.
           * Classic square grids ignore x and y, but other derived classes, like hexagon, may not.
           * @param {number} x The x coordinate
           * @param {number} y The y coordinate
