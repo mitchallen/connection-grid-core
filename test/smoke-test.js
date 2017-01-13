@@ -229,7 +229,7 @@ describe('module smoke test', function() {
         let tX = 0;
         let tY = 0;
         // base class doesn't know about neighbors
-        cg.connect(tX,tY,"S").should.eql(false);
+        cg.connects(tX,tY,"S").should.eql(false);
         done();
     });
 
@@ -251,7 +251,7 @@ describe('module smoke test', function() {
 
         // override getNeighborDirs for test.
         cg.getNeighborDirs = mockGetNeighborDirs;
-        cg.connect(1,0,1).should.eql(false);
+        cg.connects(1,0,1).should.eql(false);
         done();
     });
 
@@ -268,7 +268,7 @@ describe('module smoke test', function() {
         cg.getNeighbor = mockGetNeighbor;
         // override getNeighborDirs for test.
         cg.getNeighborDirs = mockGetNeighborDirs;
-        cg.connect(0,0,"N").should.eql(false);
+        cg.connects(0,0,"N").should.eql(false);
         done();
     });
 
