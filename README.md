@@ -3,6 +3,27 @@
 ==
 Connection grid core
 --
+
+<p align="left">
+
+  <a href="https://travis-ci.org/mitchallen/connection-grid-core">
+    <img src="https://img.shields.io/travis/mitchallen/connection-grid-core.svg?style=flat-square" alt="Version">
+  </a>
+  
+  <a href="https://codecov.io/gh/mitchallen/connection-grid-core">
+    <img src="https://codecov.io/gh/mitchallen/connection-grid-core/branch/master/graph/badge.svg" alt="Coverage Status">
+  </a>
+  
+  <a href="https://npmjs.org/package/@mitchallen/connection-grid-core">
+    <img src="http://img.shields.io/npm/v/@mitchallen/connection-grid-core.svg?style=flat-square" alt="Version">
+  </a>
+  
+  <a href="https://npmjs.org/package/@mitchallen/connection-grid-core">
+    <img src="https://img.shields.io/github/license/mitchallen/connection-grid-core.svg">
+  </a>
+  
+</p>
+
 * * *
 ## Installation
 
@@ -448,6 +469,12 @@ Add unit tests for any new or changed functionality. Lint and test your code.
 * * *
 
 ## Version History
+
+#### Version 0.1.9
+
+* integrated travis-ci and codecov.io
+* uses latest version of @mitchallen/shuffle
+* updated license to MIT
 
 #### Version 0.1.8
 
