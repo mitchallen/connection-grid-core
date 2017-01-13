@@ -380,6 +380,58 @@ describe('module smoke test', function() {
         done();
     });
 
+    it('hasConnections for a cell that has an invalid direction should return false', function(done) {
+        var sourceGrid = gridCore.create({rows: 5});
+        var cg = _module.create({  
+            grid: sourceGrid,     
+            dirMap: _dirMap,
+            oppositeMap: _oppositeMap 
+        });
+
+        cg.set(1,0,0);
+        cg.set(1,1,0);
+
+        // override getNeighbor for test.
+        cg.getNeighbor = mockGetNeighbor;
+
+        // override getNeighborDirs for test.
+        cg.getNeighborDirs = function(x, y) {
+            // Classic ignores x and y, but other derived classes may not
+            return [ "X", "Y", "Z" ];
+        }
+
+        var x = 1, y = 1;
+        cg.connectUndirected(x,y,"N");
+        cg.hasConnections(x,y).should.eql(false);
+        done();
+    });
+
+    it('hasConnections for a cell that has no directions should return false', function(done) {
+        var sourceGrid = gridCore.create({rows: 5});
+        var cg = _module.create({  
+            grid: sourceGrid,     
+            dirMap: _dirMap,
+            oppositeMap: _oppositeMap 
+        });
+
+        cg.set(1,0,0);
+        cg.set(1,1,0);
+
+        // override getNeighbor for test.
+        cg.getNeighbor = mockGetNeighbor;
+
+        // override getNeighborDirs for test.
+        cg.getNeighborDirs = function(x, y) {
+            // Classic ignores x and y, but other derived classes may not
+            return [];
+        }
+
+        var x = 1, y = 1;
+        cg.connectUndirected(x,y,"N");
+        cg.hasConnections(x,y).should.eql(false);
+        done();
+    });
+
     it('open for a non-string direction should return false', function(done) {
         var sourceGrid = gridCore.create({rows: 5});
         var cg = _module.create({  
