@@ -10,7 +10,8 @@ var request = require('supertest'),
     should = require('should'),
     gridCore = require('@mitchallen/grid-core'),
     gridSquare = require('@mitchallen/grid-square'),
-    modulePath = "../dist/connection-grid-core";
+    // modulePath = "../dist/connection-grid-core";
+    modulePath = "../modules/index";
 
 describe('module smoke test', function() {
 
