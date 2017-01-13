@@ -268,7 +268,7 @@ describe('module smoke test', function() {
         cg.getNeighbor = mockGetNeighbor;
         // override getNeighborDirs for test.
         cg.getNeighborDirs = mockGetNeighborDirs;
-        cg.connects(0,0,"N").should.eql(false);
+        cg.connects(-1,0,"N").should.eql(false);
         done();
     });
 
