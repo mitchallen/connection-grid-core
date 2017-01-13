@@ -13,7 +13,6 @@
     "test-jenkins": "grunt && --recursive --timeout 20000 -R xunit test/ > test-reports.xml",
     "//": "Usage:> [PORT=8002] npm run web-server",
     "web-server": "python -m SimpleHTTPServer $PORT || 8000"
-
   },
   "repository": {
     "type": "git",

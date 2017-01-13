@@ -475,6 +475,7 @@ Add unit tests for any new or changed functionality. Lint and test your code.
 * integrated travis-ci and codecov.io
 * uses latest version of @mitchallen/shuffle
 * updated license to MIT
+* refactored test cases to bring code coverage to 100%
 
 #### Version 0.1.8
 
