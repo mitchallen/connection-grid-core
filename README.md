@@ -69,10 +69,10 @@ You must use __npm__ __2.7.0__ or higher because of the scoped package name.
         <meta name="description" content="Connection Grid Core Example">
         <!-- either cdn should work -->
         <!--
-        <script src="https://cdn.rawgit.com/mitchallen/connection-grid-core/v0.1.0/dist/connection-grid-core.min.js"></script>
+        <script src="https://cdn.rawgit.com/mitchallen/connection-grid-core/v0.1.10/dist/connection-grid-core.min.js"></script>
         -->
-        <script src="https://unpkg.com/@mitchallen/connection-grid-core@0.1.0/dist/connection-grid-core.min.js"></script>
-        <script src="https://unpkg.com/@mitchallen/grid-square@0.1.4/dist/grid-square.min.js"></script>
+        <script src="https://unpkg.com/@mitchallen/connection-grid-core@0.1.10/dist/connection-grid-core.min.js"></script>
+        <script src="https://unpkg.com/@mitchallen/grid-square@0.1.8/dist/grid-square.min.js"></script>
         <script>
           var factory = window.MitchAllen.ConnectionGridCore;
           var squareFactory = window.MitchAllen.GridSquare;
@@ -469,6 +469,10 @@ Add unit tests for any new or changed functionality. Lint and test your code.
 * * *
 
 ## Version History
+
+#### Version 0.1.10
+
+* updated .npmignore
 
 #### Version 0.1.9
 
