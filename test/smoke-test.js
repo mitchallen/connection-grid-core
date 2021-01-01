@@ -677,6 +677,9 @@ describe('module smoke test', function () {
     console.log("S", n3);
     var d = cg.getMaxDistance(startX,startY);
     console.log(d);
+    d.x.should.eql(3);
+    d.y.should.eql(2);
+    d.distance.should.eql(3);
     done();
   });
 });

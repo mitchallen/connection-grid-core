@@ -250,9 +250,9 @@ module.exports.create = (spec) => {
       * if(core.hasConnections(1,2)) ...
      */
     hasConnections: function (x, y) {
-      // Need to discount visited flag, etc
       let cell = this.get(x, y);
       if (cell === null) { return false; }
+      cell = cell & ~VISITED; // discount visited flag
       if (cell === 0) { return false; }
       let list = this.getNeighborDirs(x, y);
       for (var key in list) {
@@ -418,13 +418,13 @@ module.exports.create = (spec) => {
           // console.log(`UPDATING MAX DISTANCE: ${this.maxDistance.distance}`)
       } 
       console.log(this.maxDistance);
+      if( !this.hasConnections(x,y)) return;
       var cell = this.get(x,y);
-      if(cell <= 0) { return; }
       var list = this.getNeighborDirs(x, y);
       for(var sDir of list) {
           // console.log(`SCANNING: ${sDir}`);
           if(!this.isDir(sDir)) {
-              console.error("hasConnections unknown direction: ", sDir);
+              console.error("getDistance unknown direction: ", sDir);
               return;
           }
           var iDir = _DIR_MAP[sDir];
