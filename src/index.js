@@ -1,44 +1,3 @@
-(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}(g.MitchAllen || (g.MitchAllen = {})).ConnectionGridCore = f()}})(function(){var define,module,exports;return (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(_dereq_,module,exports){
-(function (global){(function (){
-(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}(g.MitchAllen || (g.MitchAllen = {})).Shuffle = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof _dereq_=="function"&&_dereq_;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof _dereq_=="function"&&_dereq_;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(_dereq_,module,exports){
-/**
-    Module: @mitchallen/shuffle
-    Author: Mitch Allen
-*/
-
-/*jshint node: true */
-/*jshint esversion: 6 */
-
-"use strict";
-
-module.exports.create = function (spec) {
-    if (!spec) {
-        return null;
-    }
-    if (!spec.array) {
-        return null;
-    }
-    var _array = spec.array.slice(0);
-    return {
-        shuffle: function shuffle() {
-            var i = 0,
-                j = 0,
-                temp = null;
-            for (i = _array.length - 1; i > 0; i -= 1) {
-                j = Math.floor(Math.random() * (i + 1));
-                temp = _array[i];
-                _array[i] = _array[j];
-                _array[j] = temp;
-            }
-            return _array;
-        }
-    };
-};
-
-},{}]},{},[1])(1)
-});
-}).call(this)}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],2:[function(_dereq_,module,exports){
 /**
     Module: @mitchallen/connection-grid-core/src/index.js
     Author: Mitch Allen
@@ -49,7 +8,7 @@ module.exports.create = function (spec) {
 
 "use strict";
 
-var shuffleFactory = _dereq_("@mitchallen/shuffle");
+var shuffleFactory = require("@mitchallen/shuffle");
 
 /**
  * Grid Core
@@ -94,7 +53,7 @@ var shuffleFactory = _dereq_("@mitchallen/shuffle");
 *     oppositeMap: _oppositeMap 
 * });
 */
-module.exports.create = function (spec) {
+module.exports.create = (spec) => {
 
   spec = spec || {};
   var _grid = spec.grid;
@@ -106,8 +65,8 @@ module.exports.create = function (spec) {
   }
 
   // bit masks
-  var VISITED = 0x01;
-  var MASKED = 0x02;
+  let VISITED = 0x01;
+  let MASKED = 0x02;
 
   Object.defineProperties(_grid, {
     "dirMap": {
@@ -115,7 +74,7 @@ module.exports.create = function (spec) {
       value: _DIR_MAP,
       enumerable: true,
       configurable: true
-    }
+    },
   });
 
   return Object.assign(_grid, {
@@ -129,9 +88,9 @@ module.exports.create = function (spec) {
       * @example <caption>usage</caption>
       * if(core.isDir("N")) ...
      */
-    isDir: function isDir(dir) {
+    isDir: function (dir) {
       if (typeof dir === 'string') {
-        return _DIR_MAP[dir] !== undefined;
+        return (_DIR_MAP[dir] !== undefined);
       }
       return false;
     },
@@ -144,10 +103,8 @@ module.exports.create = function (spec) {
       * @example <caption>usage</caption>
       * core.getOppositeDir("N").should.eql("S");
      */
-    getOppositeDir: function getOppositeDir(dir) {
-      if (!this.isDir(dir)) {
-        return null;
-      }
+    getOppositeDir: function (dir) {
+      if (!this.isDir(dir)) { return null; }
       return _OPPOSITE[dir];
     },
     /** Returns the neighbor in a particular direction for a cell at x,y.
@@ -162,7 +119,7 @@ module.exports.create = function (spec) {
       * @example <caption>usage</caption>
       * var neighbor = core.getNeighbor(1,2,"N");
      */
-    getNeighbor: function getNeighbor(x, y, dir) {
+    getNeighbor: function (x, y, dir) {
       // derived should override
       console.log("getNeighbor should be overriden by derived class");
       return null;
@@ -178,7 +135,7 @@ module.exports.create = function (spec) {
       * @example <caption>usage</caption>
       * var neighbors = core.getNeighborDirs(1,2);
      */
-    getNeighborDirs: function getNeighborDirs(x, y) {
+    getNeighborDirs: function (x, y) {
       // derived should override
       // Classic ignores x and y, but other derived classes may not
       console.log("getNeighborDirs should be overriden by derived class");
@@ -194,7 +151,7 @@ module.exports.create = function (spec) {
       * @example <caption>usage</caption>
       * var neighbors = core.getShuffledNeighborDirs(1,2);
      */
-    getShuffledNeighborDirs: function getShuffledNeighborDirs(x, y) {
+    getShuffledNeighborDirs: function (x, y) {
       var shuffler = shuffleFactory.create({ array: this.getNeighborDirs(x, y) });
       return shuffler.shuffle();
     },
@@ -208,7 +165,7 @@ module.exports.create = function (spec) {
       * @example <caption>usage</caption>
       * core.markVisited(1,2);
      */
-    markVisited: function markVisited(x, y) {
+    markVisited: function (x, y) {
       return this.set(x, y, this.get(x, y) | VISITED);
     },
     /** Clears visit flag from cell
@@ -221,7 +178,7 @@ module.exports.create = function (spec) {
       * @example <caption>usage</caption>
       * core.clearVisited(1,2);
      */
-    clearVisited: function clearVisited(x, y) {
+    clearVisited: function (x, y) {
       return this.set(x, y, this.get(x, y) & ~VISITED);
     },
     /** Clear all visited flag from grid
@@ -231,14 +188,14 @@ module.exports.create = function (spec) {
       * @example <caption>usage</caption>
       * core.clearAllVisited();
      */
-    clearAllVisited: function clearAllVisited() {
+    clearAllVisited: function () {
       // return this.set(x, y, this.get(x, y) & ~VISITED);
-      for (var row = 0; row < this.rows; row++) {
+      for(var row = 0; row < this.rows; row++) {
         var rs = this.rowSize(row);
-        for (var pos = 0; pos < rs; pos++) {
-          this.clearVisited(row, pos);
+        for(var pos = 0; pos < rs; pos++) {
+            this.clearVisited(row,pos);
         }
-      }
+    }
     },
     /** Returns true if a cell at x,y exists and it has been marked as visited.
       * @param {number} x The x coordinate
@@ -250,11 +207,9 @@ module.exports.create = function (spec) {
       * @example <caption>usage</caption>
       * if(core.visited(x)) ...
      */
-    visited: function visited(x, y) {
-      if (!this.isCell(x, y)) {
-        return false;
-      }
-      return (this.get(x, y) & VISITED) !== 0;
+    visited: function (x, y) {
+      if (!this.isCell(x, y)) { return false; }
+      return ((this.get(x, y) & VISITED) !== 0);
     },
     /** Marks a cell at x,y as masked.
       * Useful for maze generators to mark cells to skip
@@ -267,7 +222,7 @@ module.exports.create = function (spec) {
       * @example <caption>usage</caption>
       * core.mask(1,2)
      */
-    mask: function mask(x, y) {
+    mask: function (x, y) {
       return this.set(x, y, this.get(x, y) | MASKED);
     },
     /** Returns true if a cell at x,y has been marked using [mask]{@link module:connection-grid-core#mask}.
@@ -280,11 +235,9 @@ module.exports.create = function (spec) {
       * @example <caption>usage</caption>
       * if(core.isMasked(1,2)) ...
      */
-    isMasked: function isMasked(x, y) {
-      if (!this.isCell(x, y)) {
-        return false;
-      }
-      return (this.get(x, y) & MASKED) !== 0;
+    isMasked: function (x, y) {
+      if (!this.isCell(x, y)) { return false; }
+      return ((this.get(x, y) & MASKED) !== 0);
     },
     /** Returns true if a cell at x,y has connections.
       * @param {number} x The x coordinate
@@ -296,18 +249,14 @@ module.exports.create = function (spec) {
       * @example <caption>usage</caption>
       * if(core.hasConnections(1,2)) ...
      */
-    hasConnections: function hasConnections(x, y) {
+    hasConnections: function (x, y) {
       // Need to discount visited flag, etc
-      var cell = this.get(x, y);
-      if (cell === null) {
-        return false;
-      }
-      if (cell === 0) {
-        return false;
-      }
-      var list = this.getNeighborDirs(x, y);
+      let cell = this.get(x, y);
+      if (cell === null) { return false; }
+      if (cell === 0) { return false; }
+      let list = this.getNeighborDirs(x, y);
       for (var key in list) {
-        var sDir = list[key];
+        let sDir = list[key];
         if (!this.isDir(sDir)) {
           console.error("hasConnections unknown direction: ", sDir);
           return false;
@@ -331,7 +280,7 @@ module.exports.create = function (spec) {
       * @example <caption>usage</caption>
       * core.open(0,0,"N");
      */
-    open: function open(x, y, dir) {
+    open: function (x, y, dir) {
       // dir must be string
       if (!this.isDir(dir)) {
         return false;
@@ -350,7 +299,7 @@ module.exports.create = function (spec) {
       * @example <caption>usage</caption>
       * if(core.connect(1,2,"N")) ...
      */
-    connect: function connect(x, y, dir) {
+    connect: function (x, y, dir) {
       // dir must be string
       // Connect cell to neighbor (one way)}
       if (!this.getNeighbor(x, y, dir)) return false;
@@ -369,7 +318,7 @@ module.exports.create = function (spec) {
       * @example <caption>usage</caption>
       * if(core.connectUndirected(1,2,"N")) ...
      */
-    connectUndirected: function connectUndirected(x, y, sDir) {
+    connectUndirected: function (x, y, sDir) {
       // dir must be a string
       if (!this.connect(x, y, sDir)) {
         return false;
@@ -392,17 +341,15 @@ module.exports.create = function (spec) {
       * @example <caption>usage</caption>
       * if(core.connects(1,2,"N")) ...
      */
-    connects: function connects(x, y, sDir) {
+    connects: function (x, y, sDir) {
       if (!this.isDir(sDir)) {
         console.error("connects unknown direction: ", sDir);
         return false;
       }
-      var cell = this.get(x, y);
-      if (cell === null) {
-        return false;
-      }
+      let cell = this.get(x, y);
+      if (cell === null) { return false; }
       var iDir = _DIR_MAP[sDir];
-      return (cell & iDir) !== 0;
+      return ((cell & iDir) !== 0);
     },
     /** Returns true if a cell connects to a neighbor cell in any direction in the list.
       * @param {number} x The x coordinate
@@ -415,12 +362,10 @@ module.exports.create = function (spec) {
       * @example <caption>usage</caption>
       * if(core.connectsAny(1,2,["N","W"]) ...
      */
-    connectsAny: function connectsAny(x, y, list) {
-      var _this = this;
-
+    connectsAny: function (x, y, list) {
       var connects = false;
-      list.forEach(function (el) {
-        if (_this.connects(x, y, el)) {
+      list.forEach(el => {
+        if (this.connects(x, y, el)) {
           connects = true;
         }
       });
@@ -437,20 +382,19 @@ module.exports.create = function (spec) {
       * var d = core.getMaxDistance(1,2)
       * console.log( "DISTANCE: " + d.x + ", " + d.y + " = " + d.distance );
      */
-    getMaxDistance: function getMaxDistance(x, y) {
+    getMaxDistance(x, y) {
       this.clearAllVisited();
       // create new internal distance trackker
       this.maxDistance = {
         x: 0,
         y: 0,
-        distance: 0
+        distance: 0,
       };
       this.getDistance(x, y, 0);
       this.clearAllVisited(); // Reset for next routine to use
       // maxDistance.PrintMaxDistance();
       return this.maxDistance;
     },
-
     /** Internal recursive function that update internal maxDistance 
       * @param {number} x The x coordinate
       * @param {number} y The y coordinate
@@ -459,64 +403,39 @@ module.exports.create = function (spec) {
       * @returns {MaxDistance}
       * @memberof module:connection-grid-core
      */
-    getDistance: function getDistance(x, y, distance) {
+    getDistance(x,y,distance) {
       // console.log( `DISTANCE:  ${x}, ${y} = ${distance}`);
-      if (this.visited(x, y)) {
-        // console.log(`RETURN - VISITED: ${x}, ${y}`);
-        return;
+      if( this.visited( x, y )) {
+          // console.log(`RETURN - VISITED: ${x}, ${y}`);
+          return;
       }
       // console.log(`markVisited: ${x},${y}`);
-      this.markVisited(x, y);
-      if (this.maxDistance.distance < distance) {
-        this.maxDistance.x = x;
-        this.maxDistance.y = y;
-        this.maxDistance.distance = distance;
-        // console.log(`UPDATING MAX DISTANCE: ${this.maxDistance.distance}`)
-      }
+      this.markVisited( x, y );
+      if( this.maxDistance.distance < distance ) {
+          this.maxDistance.x = x;
+          this.maxDistance.y = y;
+          this.maxDistance.distance = distance;
+          // console.log(`UPDATING MAX DISTANCE: ${this.maxDistance.distance}`)
+      } 
       console.log(this.maxDistance);
-      var cell = this.get(x, y);
-      if (cell <= 0) {
-        return;
-      }
+      var cell = this.get(x,y);
+      if(cell <= 0) { return; }
       var list = this.getNeighborDirs(x, y);
-      var _iteratorNormalCompletion = true;
-      var _didIteratorError = false;
-      var _iteratorError = undefined;
-
-      try {
-        for (var _iterator = list[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-          var sDir = _step.value;
-
+      for(var sDir of list) {
           // console.log(`SCANNING: ${sDir}`);
-          if (!this.isDir(sDir)) {
-            console.error("hasConnections unknown direction: ", sDir);
-            return;
+          if(!this.isDir(sDir)) {
+              console.error("hasConnections unknown direction: ", sDir);
+              return;
           }
           var iDir = _DIR_MAP[sDir];
-          if ((cell & iDir) != 0) {
-            // console.log(`# CONNECTS NEIGHBOR: ${sDir} `);
-            var neighbor = this.getNeighbor(x, y, sDir);
-            if (neighbor.x == -1) return;
-            this.getDistance(neighbor.x, neighbor.y, /* ++distance */distance + 1);
+          if((cell & iDir) != 0) {
+              // console.log(`# CONNECTS NEIGHBOR: ${sDir} `);
+              var neighbor = this.getNeighbor(x,y,sDir);
+              if( neighbor.x == -1 ) return;
+              this.getDistance( neighbor.x, neighbor.y, /* ++distance */ distance + 1 );
           }
-        }
-      } catch (err) {
-        _didIteratorError = true;
-        _iteratorError = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion && _iterator.return) {
-            _iterator.return();
-          }
-        } finally {
-          if (_didIteratorError) {
-            throw _iteratorError;
-          }
-        }
       }
-    }
+    },
+  
   });
 };
-
-},{"@mitchallen/shuffle":1}]},{},[2])(2)
-});
