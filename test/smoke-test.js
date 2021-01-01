@@ -6,7 +6,7 @@
 
 "use strict";
 
-var request = require('supertest'),
+let request = require('supertest'),
   should = require('should'),
   gridCore = require('@mitchallen/grid-core'),
   gridSquare = require('@mitchallen/grid-square'),
@@ -15,9 +15,9 @@ var request = require('supertest'),
 
 describe('module smoke test', function () {
 
-  var _module = null;
+  let _module = null;
 
-  var _dirMap = {
+  let _dirMap = {
     "N": 0x010,
     "S": 0x020,
     "E": 0x040,
@@ -27,7 +27,7 @@ describe('module smoke test', function () {
   let _oppositeMap = { "E": "W", "W": "E", "N": "S", "S": "N" };
 
   // override getNeighbor for test.
-  var mockGetNeighbor = function (x, y, dir) {
+  let mockGetNeighbor = function (x, y, dir) {
     if (!this.isCell(x, y)) { return null; }
     // dir must be string and in dirmap
     if (!this.isDir(dir)) { return null; }
@@ -42,7 +42,7 @@ describe('module smoke test', function () {
   };
 
   // override getNeighborDirs for test.
-  var mockGetNeighborDirs = function (x, y) {
+  let mockGetNeighborDirs = function (x, y) {
     // Classic ignores x and y, but other derived classes may not
     return ["N", "S", "E", "W"];
   }
@@ -75,14 +75,14 @@ describe('module smoke test', function () {
   });
 
   it('create method with no spec should return null', function (done) {
-    var cg = _module.create();
+    let cg = _module.create();
     should.not.exist(cg);
     done();
   });
 
   it('create method with valid parameters should return object', function (done) {
-    var sourceGrid = gridCore.create({ rows: 5 });
-    var cg = _module.create({
+    let sourceGrid = gridCore.create({ rows: 5 });
+    let cg = _module.create({
       grid: sourceGrid,
       dirMap: _dirMap,
       oppositeMap: _oppositeMap
@@ -92,11 +92,11 @@ describe('module smoke test', function () {
   });
 
   it('getNeighborDirs should return empty list', function (done) {
-    var xSize = 5,
+    let xSize = 5,
       ySize = 6;
-    var sourceGrid = gridSquare.create({ x: xSize, y: ySize });
+    let sourceGrid = gridSquare.create({ x: xSize, y: ySize });
     // sourceGrid.fill(0)
-    var cg = _module.create({
+    let cg = _module.create({
       grid: sourceGrid,
       dirMap: _dirMap,
       oppositeMap: _oppositeMap
@@ -106,26 +106,26 @@ describe('module smoke test', function () {
   });
 
   it('getShuffledNeighborDirs should return empty list', function (done) {
-    var xSize = 5,
+    let xSize = 5,
       ySize = 6;
-    var sourceGrid = gridSquare.create({ x: xSize, y: ySize });
-    var cg = _module.create({
+    let sourceGrid = gridSquare.create({ x: xSize, y: ySize });
+    let cg = _module.create({
       grid: sourceGrid,
       dirMap: _dirMap,
       oppositeMap: _oppositeMap
     });
     let tX = 1;
     let tY = 2;
-    var shuffled = cg.getShuffledNeighborDirs(tX, tY);
+    let shuffled = cg.getShuffledNeighborDirs(tX, tY);
     shuffled.length.should.eql(0);
     done();
   });
 
   it('markVisited should return true for valid cell', function (done) {
-    var xSize = 5,
+    let xSize = 5,
       ySize = 6;
-    var sourceGrid = gridSquare.create({ x: xSize, y: ySize });
-    var cg = _module.create({
+    let sourceGrid = gridSquare.create({ x: xSize, y: ySize });
+    let cg = _module.create({
       grid: sourceGrid,
       dirMap: _dirMap,
       oppositeMap: _oppositeMap
@@ -133,17 +133,17 @@ describe('module smoke test', function () {
     let tX = 0;
     let tY = 0;
     let VISITED = 0x01;
-    var result = cg.markVisited(tX, tY);
+    let result = cg.markVisited(tX, tY);
     result.should.eql(true);
     cg.get(tX, tY).should.eql(VISITED);
     done();
   });
 
   it('clearVisited should return true for cleared cell', function (done) {
-    var xSize = 5,
+    let xSize = 5,
       ySize = 6;
-    var sourceGrid = gridSquare.create({ x: xSize, y: ySize });
-    var cg = _module.create({
+    let sourceGrid = gridSquare.create({ x: xSize, y: ySize });
+    let cg = _module.create({
       grid: sourceGrid,
       dirMap: _dirMap,
       oppositeMap: _oppositeMap
@@ -160,10 +160,10 @@ describe('module smoke test', function () {
   });
 
   it('visited should return true for a visited cell', function (done) {
-    var xSize = 5,
+    let xSize = 5,
       ySize = 6;
-    var sourceGrid = gridSquare.create({ x: xSize, y: ySize });
-    var cg = _module.create({
+    let sourceGrid = gridSquare.create({ x: xSize, y: ySize });
+    let cg = _module.create({
       grid: sourceGrid,
       dirMap: _dirMap,
       oppositeMap: _oppositeMap
@@ -176,10 +176,10 @@ describe('module smoke test', function () {
   });
 
   it('hasConnections should return false when nothing connected', function (done) {
-    var xSize = 5,
+    let xSize = 5,
       ySize = 6;
-    var sourceGrid = gridSquare.create({ x: xSize, y: ySize });
-    var cg = _module.create({
+    let sourceGrid = gridSquare.create({ x: xSize, y: ySize });
+    let cg = _module.create({
       grid: sourceGrid,
       dirMap: _dirMap,
       oppositeMap: _oppositeMap
@@ -191,10 +191,10 @@ describe('module smoke test', function () {
   });
 
   it('getNeighbor should return null', function (done) {
-    var xSize = 5,
+    let xSize = 5,
       ySize = 6;
-    var sourceGrid = gridSquare.create({ x: xSize, y: ySize });
-    var cg = _module.create({
+    let sourceGrid = gridSquare.create({ x: xSize, y: ySize });
+    let cg = _module.create({
       grid: sourceGrid,
       dirMap: _dirMap,
       oppositeMap: _oppositeMap
@@ -202,16 +202,16 @@ describe('module smoke test', function () {
     let tX = 2;
     let tY = 3;
     // derived class needs to override
-    var result = cg.getNeighbor(tX, tY, "S");
+    let result = cg.getNeighbor(tX, tY, "S");
     should.not.exist(result);
     done();
   });
 
   it('connect should return false for base class', function (done) {
-    var xSize = 5,
+    let xSize = 5,
       ySize = 6;
-    var sourceGrid = gridSquare.create({ x: xSize, y: ySize });
-    var cg = _module.create({
+    let sourceGrid = gridSquare.create({ x: xSize, y: ySize });
+    let cg = _module.create({
       grid: sourceGrid,
       dirMap: _dirMap,
       oppositeMap: _oppositeMap
@@ -224,10 +224,10 @@ describe('module smoke test', function () {
   });
 
   it('connectUndirected should return false for base class', function (done) {
-    var xSize = 5,
+    let xSize = 5,
       ySize = 6;
-    var sourceGrid = gridSquare.create({ x: xSize, y: ySize });
-    var cg = _module.create({
+    let sourceGrid = gridSquare.create({ x: xSize, y: ySize });
+    let cg = _module.create({
       grid: sourceGrid,
       dirMap: _dirMap,
       oppositeMap: _oppositeMap
@@ -240,10 +240,10 @@ describe('module smoke test', function () {
   });
 
   it('connects should return false for base class', function (done) {
-    var xSize = 5,
+    let xSize = 5,
       ySize = 6;
-    var sourceGrid = gridSquare.create({ x: xSize, y: ySize });
-    var cg = _module.create({
+    let sourceGrid = gridSquare.create({ x: xSize, y: ySize });
+    let cg = _module.create({
       grid: sourceGrid,
       dirMap: _dirMap,
       oppositeMap: _oppositeMap
@@ -256,10 +256,10 @@ describe('module smoke test', function () {
   });
 
   it('connects should return false for non-string direction', function (done) {
-    var xSize = 5,
+    let xSize = 5,
       ySize = 6;
-    var sourceGrid = gridSquare.create({ x: xSize, y: ySize });
-    var cg = _module.create({
+    let sourceGrid = gridSquare.create({ x: xSize, y: ySize });
+    let cg = _module.create({
       grid: sourceGrid,
       dirMap: _dirMap,
       oppositeMap: _oppositeMap
@@ -278,10 +278,10 @@ describe('module smoke test', function () {
   });
 
   it('connects should return false for non-existant cell', function (done) {
-    var xSize = 5,
+    let xSize = 5,
       ySize = 6;
-    var sourceGrid = gridSquare.create({ x: xSize, y: ySize });
-    var cg = _module.create({
+    let sourceGrid = gridSquare.create({ x: xSize, y: ySize });
+    let cg = _module.create({
       grid: sourceGrid,
       dirMap: _dirMap,
       oppositeMap: _oppositeMap
@@ -295,10 +295,10 @@ describe('module smoke test', function () {
   });
 
   it('isMasked should return true for a masked cell', function (done) {
-    var xSize = 5,
+    let xSize = 5,
       ySize = 6;
-    var sourceGrid = gridSquare.create({ x: xSize, y: ySize });
-    var cg = _module.create({
+    let sourceGrid = gridSquare.create({ x: xSize, y: ySize });
+    let cg = _module.create({
       grid: sourceGrid,
       dirMap: _dirMap,
       oppositeMap: _oppositeMap
@@ -311,10 +311,10 @@ describe('module smoke test', function () {
   });
 
   it('getOppositeDir should return opposite neighbor', function (done) {
-    var xSize = 5,
+    let xSize = 5,
       ySize = 6;
-    var sourceGrid = gridSquare.create({ x: xSize, y: ySize });
-    var cg = _module.create({
+    let sourceGrid = gridSquare.create({ x: xSize, y: ySize });
+    let cg = _module.create({
       grid: sourceGrid,
       dirMap: _dirMap,
       oppositeMap: _oppositeMap
@@ -324,10 +324,10 @@ describe('module smoke test', function () {
   });
 
   it('open should connect a cell in the designated direction', function (done) {
-    var xSize = 5,
+    let xSize = 5,
       ySize = 6;
-    var sourceGrid = gridSquare.create({ x: xSize, y: ySize });
-    var cg = _module.create({
+    let sourceGrid = gridSquare.create({ x: xSize, y: ySize });
+    let cg = _module.create({
       grid: sourceGrid,
       dirMap: _dirMap,
       oppositeMap: _oppositeMap
@@ -341,8 +341,8 @@ describe('module smoke test', function () {
   });
 
   it('isDir for non-string should return false', function (done) {
-    var sourceGrid = gridCore.create({ rows: 5 });
-    var cg = _module.create({
+    let sourceGrid = gridCore.create({ rows: 5 });
+    let cg = _module.create({
       grid: sourceGrid,
       dirMap: _dirMap,
       oppositeMap: _oppositeMap
@@ -352,20 +352,20 @@ describe('module smoke test', function () {
   });
 
   it('getOppositeDir for non-string should return null', function (done) {
-    var sourceGrid = gridCore.create({ rows: 5 });
-    var cg = _module.create({
+    let sourceGrid = gridCore.create({ rows: 5 });
+    let cg = _module.create({
       grid: sourceGrid,
       dirMap: _dirMap,
       oppositeMap: _oppositeMap
     });
-    var result = cg.getOppositeDir(1);
+    let result = cg.getOppositeDir(1);
     should.not.exist(result);
     done();
   });
 
   it('visited for a cell that was not visited should return false', function (done) {
-    var sourceGrid = gridCore.create({ rows: 5 });
-    var cg = _module.create({
+    let sourceGrid = gridCore.create({ rows: 5 });
+    let cg = _module.create({
       grid: sourceGrid,
       dirMap: _dirMap,
       oppositeMap: _oppositeMap
@@ -375,8 +375,8 @@ describe('module smoke test', function () {
   });
 
   it('isMasked for a cell that was not masked should return false', function (done) {
-    var sourceGrid = gridCore.create({ rows: 5 });
-    var cg = _module.create({
+    let sourceGrid = gridCore.create({ rows: 5 });
+    let cg = _module.create({
       grid: sourceGrid,
       dirMap: _dirMap,
       oppositeMap: _oppositeMap
@@ -386,8 +386,8 @@ describe('module smoke test', function () {
   });
 
   it('hasConnections for a non-existant cell should return false', function (done) {
-    var sourceGrid = gridCore.create({ rows: 5 });
-    var cg = _module.create({
+    let sourceGrid = gridCore.create({ rows: 5 });
+    let cg = _module.create({
       grid: sourceGrid,
       dirMap: _dirMap,
       oppositeMap: _oppositeMap
@@ -397,8 +397,8 @@ describe('module smoke test', function () {
   });
 
   it('hasConnections for a cell that has no connections should return false', function (done) {
-    var sourceGrid = gridCore.create({ rows: 5 });
-    var cg = _module.create({
+    let sourceGrid = gridCore.create({ rows: 5 });
+    let cg = _module.create({
       grid: sourceGrid,
       dirMap: _dirMap,
       oppositeMap: _oppositeMap
@@ -413,14 +413,14 @@ describe('module smoke test', function () {
     // override getNeighborDirs for test.
     cg.getNeighborDirs = mockGetNeighborDirs;
 
-    var x = 1, y = 1;
+    let x = 1, y = 1;
     cg.hasConnections(x, y).should.eql(false);
     done();
   });
 
   it('hasConnections for a cell that has connections should return true', function (done) {
-    var sourceGrid = gridCore.create({ rows: 5 });
-    var cg = _module.create({
+    let sourceGrid = gridCore.create({ rows: 5 });
+    let cg = _module.create({
       grid: sourceGrid,
       dirMap: _dirMap,
       oppositeMap: _oppositeMap
@@ -435,15 +435,15 @@ describe('module smoke test', function () {
     // override getNeighborDirs for test.
     cg.getNeighborDirs = mockGetNeighborDirs;
 
-    var x = 1, y = 1;
+    let x = 1, y = 1;
     cg.connectUndirected(x, y, "N");
     cg.hasConnections(x, y).should.eql(true);
     done();
   });
 
   it('hasConnections for a cell that has an invalid direction should return false', function (done) {
-    var sourceGrid = gridCore.create({ rows: 5 });
-    var cg = _module.create({
+    let sourceGrid = gridCore.create({ rows: 5 });
+    let cg = _module.create({
       grid: sourceGrid,
       dirMap: _dirMap,
       oppositeMap: _oppositeMap
@@ -461,15 +461,15 @@ describe('module smoke test', function () {
       return ["X", "Y", "Z"];
     }
 
-    var x = 1, y = 1;
+    let x = 1, y = 1;
     cg.connectUndirected(x, y, "N");
     cg.hasConnections(x, y).should.eql(false);
     done();
   });
 
   it('hasConnections for a cell that has no directions should return false', function (done) {
-    var sourceGrid = gridCore.create({ rows: 5 });
-    var cg = _module.create({
+    let sourceGrid = gridCore.create({ rows: 5 });
+    let cg = _module.create({
       grid: sourceGrid,
       dirMap: _dirMap,
       oppositeMap: _oppositeMap
@@ -487,17 +487,17 @@ describe('module smoke test', function () {
       return [];
     }
 
-    var x = 1, y = 1;
+    let x = 1, y = 1;
     cg.connectUndirected(x, y, "N");
     cg.hasConnections(x, y).should.eql(false);
     done();
   });
 
   it('connectUndirected should return false if no opposite directions', function (done) {
-    var xSize = 5,
+    let xSize = 5,
       ySize = 6;
-    var sourceGrid = gridSquare.create({ x: xSize, y: ySize });
-    var cg = _module.create({
+    let sourceGrid = gridSquare.create({ x: xSize, y: ySize });
+    let cg = _module.create({
       grid: sourceGrid,
       dirMap: _dirMap,
       // oppositeMap: _oppositeMap 
@@ -517,8 +517,8 @@ describe('module smoke test', function () {
   });
 
   it('open for a non-string direction should return false', function (done) {
-    var sourceGrid = gridCore.create({ rows: 5 });
-    var cg = _module.create({
+    let sourceGrid = gridCore.create({ rows: 5 });
+    let cg = _module.create({
       grid: sourceGrid,
       dirMap: _dirMap,
       oppositeMap: _oppositeMap
@@ -529,8 +529,8 @@ describe('module smoke test', function () {
   });
 
   it('connect for a non-string direction should return false', function (done) {
-    var sourceGrid = gridCore.create({ rows: 5 });
-    var cg = _module.create({
+    let sourceGrid = gridCore.create({ rows: 5 });
+    let cg = _module.create({
       grid: sourceGrid,
       dirMap: _dirMap,
       oppositeMap: _oppositeMap
@@ -541,8 +541,8 @@ describe('module smoke test', function () {
   });
 
   it('connect for a valid cell and direction should return true', function (done) {
-    var sourceGrid = gridCore.create({ rows: 5 });
-    var cg = _module.create({
+    let sourceGrid = gridCore.create({ rows: 5 });
+    let cg = _module.create({
       grid: sourceGrid,
       dirMap: _dirMap,
       oppositeMap: _oppositeMap
@@ -557,15 +557,15 @@ describe('module smoke test', function () {
     // override getNeighborDirs for test.
     cg.getNeighborDirs = mockGetNeighborDirs;
 
-    var x = 1, y = 1;
+    let x = 1, y = 1;
     cg.connect(x, y, "N").should.eql(true);
     done();
   });
 
   it('connectsAny for a cell that has connections should return true', function (done) {
-    var sourceGrid = gridCore.create({ rows: 5 });
+    let sourceGrid = gridCore.create({ rows: 5 });
 
-    var cg = _module.create({
+    let cg = _module.create({
       grid: sourceGrid,
       dirMap: _dirMap,
       oppositeMap: _oppositeMap
@@ -587,7 +587,7 @@ describe('module smoke test', function () {
     // override getNeighborDirs for test.
     cg.getNeighborDirs = mockGetNeighborDirs;
 
-    var x = 1, y = 1;
+    let x = 1, y = 1;
     cg.connectUndirected(x, y, "E");
     cg.connectsAny(x, y, ["N", "E", "W", "S"]).should.eql(true);
     cg.connectsAny(x, y, ["E", "W"]).should.eql(true);
@@ -597,8 +597,8 @@ describe('module smoke test', function () {
   });
 
   it('connectsAny for a list of non-sensical directions should return false', function (done) {
-    var sourceGrid = gridCore.create({ rows: 5 });
-    var cg = _module.create({
+    let sourceGrid = gridCore.create({ rows: 5 });
+    let cg = _module.create({
       grid: sourceGrid,
       dirMap: _dirMap,
       oppositeMap: _oppositeMap
@@ -613,15 +613,15 @@ describe('module smoke test', function () {
     // override getNeighborDirs for test.
     cg.getNeighborDirs = mockGetNeighborDirs;
 
-    var x = 1, y = 1;
+    let x = 1, y = 1;
     cg.connectUndirected(x, y, "N");
     cg.connectsAny(x, y, ["X", "Y", "Z"]).should.eql(false);
     done();
   });
 
   it('connectsAny for an empty list should return false', function (done) {
-    var sourceGrid = gridCore.create({ rows: 5 });
-    var cg = _module.create({
+    let sourceGrid = gridCore.create({ rows: 5 });
+    let cg = _module.create({
       grid: sourceGrid,
       dirMap: _dirMap,
       oppositeMap: _oppositeMap
@@ -636,7 +636,7 @@ describe('module smoke test', function () {
     // override getNeighborDirs for test.
     cg.getNeighborDirs = mockGetNeighborDirs;
 
-    var x = 1, y = 1;
+    let x = 1, y = 1;
     cg.connectUndirected(x, y, "N");
     cg.connectsAny(x, y, []).should.eql(false);
     done();
@@ -644,9 +644,9 @@ describe('module smoke test', function () {
 
   it('getMaxDistance should return max distance', function (done) {
 
-    var sourceGrid = gridCore.create({ rows: 5 });
+    let sourceGrid = gridCore.create({ rows: 5 });
 
-    var cg = _module.create({
+    let cg = _module.create({
       grid: sourceGrid,
       dirMap: _dirMap,
       oppositeMap: _oppositeMap
@@ -664,22 +664,107 @@ describe('module smoke test', function () {
     // override getNeighborDirs for test.
     cg.getNeighborDirs = mockGetNeighborDirs;
 
-    var startX = 2, startY = 2;
+    let startX = 2, startY = 2;
     console.log( "*", { x: startX, y: startY })
     cg.connectUndirected(startX, startY, "N");
-    var n1 = cg.getNeighbor(startX, startY, "N");
+    let n1 = cg.getNeighbor(startX, startY, "N");
     console.log("N", n1);
     cg.connectUndirected( n1.x, n1.y, "E");
-    var n2 = cg.getNeighbor(n1.x, n1.y, "E");
+    let n2 = cg.getNeighbor(n1.x, n1.y, "E");
     console.log("E", n2);
     cg.connectUndirected( n2.x, n2.y, "S");
-    var n3 = cg.getNeighbor(n2.x, n2.y, "S");
+    let n3 = cg.getNeighbor(n2.x, n2.y, "S");
     console.log("S", n3);
-    var d = cg.getMaxDistance(startX,startY);
+    let d = cg.getMaxDistance(startX,startY);
     console.log(d);
     d.x.should.eql(3);
     d.y.should.eql(2);
     d.distance.should.eql(3);
     done();
   });
+
+  it('isDeadEnd should return true or false for deadend', function (done) {
+
+    let sourceGrid = gridCore.create({ rows: 5 });
+
+    let cg = _module.create({
+      grid: sourceGrid,
+      dirMap: _dirMap,
+      oppositeMap: _oppositeMap
+    });
+
+    for( let i = 0; i < 5; i++ ) {
+      for( let j = 0; j < 5; j++ ) {
+        cg.set(i,j,0);
+      }
+    }
+
+    // override getNeighbor for test.
+    cg.getNeighbor = mockGetNeighbor;
+
+    // override getNeighborDirs for test.
+    cg.getNeighborDirs = mockGetNeighborDirs;
+
+    let startX = 2, startY = 2;
+    console.log( "*", { x: startX, y: startY })
+    cg.connectUndirected(startX, startY, "N");
+    let n1 = cg.getNeighbor(startX, startY, "N");
+    console.log("N", n1);
+    cg.connectUndirected( n1.x, n1.y, "E");
+    let n2 = cg.getNeighbor(n1.x, n1.y, "E");
+    console.log("E", n2);
+    cg.connectUndirected( n2.x, n2.y, "S");
+    let n3 = cg.getNeighbor(n2.x, n2.y, "S");
+    console.log("S", n3);
+    cg.isDeadEnd(startX, startY).should.eql(true);
+    cg.isDeadEnd(n1.x, n1.y).should.eql(false);
+    cg.isDeadEnd(n2.x, n2.y).should.eql(false);
+    cg.isDeadEnd(n3.x, n3.y).should.eql(true);
+    done();
+  });
+
+  it('connectionCount should return number of connections', function (done) {
+
+    let sourceGrid = gridCore.create({ rows: 5 });
+
+    let cg = _module.create({
+      grid: sourceGrid,
+      dirMap: _dirMap,
+      oppositeMap: _oppositeMap
+    });
+
+    for( let i = 0; i < 5; i++ ) {
+      for( let j = 0; j < 5; j++ ) {
+        cg.set(i,j,0);
+      }
+    }
+
+    // override getNeighbor for test.
+    cg.getNeighbor = mockGetNeighbor;
+
+    // override getNeighborDirs for test.
+    cg.getNeighborDirs = mockGetNeighborDirs;
+
+    let startX = 2, startY = 2;
+    console.log( "*", { x: startX, y: startY })
+    cg.connectUndirected(startX, startY, "N");
+    cg.connectUndirected(startX, startY, "S");
+    let n1n = cg.getNeighbor(startX, startY, "N");
+    let n1s = cg.getNeighbor(startX, startY, "S");
+    console.log("N", n1n);
+    console.log("S", n1s);
+    cg.connectUndirected( n1n.x, n1n.y, "E");
+    let n2 = cg.getNeighbor(n1n.x, n1n.y, "E");
+    console.log("E", n2);
+    cg.connectUndirected( n2.x, n2.y, "S");
+    let n3 = cg.getNeighbor(n2.x, n2.y, "S");
+    console.log("S", n3);
+    cg.connectionCount(startX, startY).should.eql(2);
+    cg.connectionCount(n1n.x, n1n.y).should.eql(2);
+    cg.connectionCount(n1s.x, n1s.y).should.eql(1);
+    cg.connectionCount(n2.x, n2.y).should.eql(2);
+    cg.connectionCount(n3.x, n3.y).should.eql(1);
+    done();
+  });
+
 });

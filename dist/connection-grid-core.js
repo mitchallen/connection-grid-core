@@ -434,7 +434,7 @@ module.exports.create = function (spec) {
       * @returns {MaxDistance}
       * @memberof module:connection-grid-core
       * @example <caption>usage</caption>
-      * var d = core.getMaxDistance(1,2)
+      * let d = core.getMaxDistance(1,2)
       * console.log( "DISTANCE: " + d.x + ", " + d.y + " = " + d.distance );
      */
     getMaxDistance: function getMaxDistance(x, y) {
@@ -512,6 +512,71 @@ module.exports.create = function (spec) {
           }
         }
       }
+    },
+
+    /** Returns number of connections for cell
+      * @param {number} x The x coordinate
+      * @param {number} y The y coordinate
+      * @function
+      * @instance
+      * @returns {number}
+      * @memberof module:connection-grid-core
+      * @example <caption>usage</caption>
+      * let count = core.connectionCount(1,2)
+      */
+    connectionCount: function connectionCount(x, y) {
+      if (!this.hasConnections(x, y)) return;
+      var cell = this.get(x, y);
+      var list = this.getNeighborDirs(x, y);
+      var connections = 0;
+      var _iteratorNormalCompletion2 = true;
+      var _didIteratorError2 = false;
+      var _iteratorError2 = undefined;
+
+      try {
+        for (var _iterator2 = list[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+          var sDir = _step2.value;
+
+          // console.log(`DEBUG: connectionCount - scanning: ${sDir}`)
+          if (!this.isDir(sDir)) {
+            console.error("connectionCount unknown direction: ", sDir);
+            return 0;
+          }
+          var iDir = _DIR_MAP[sDir];
+          if ((cell & iDir) != 0) {
+            connections++;
+          }
+        }
+      } catch (err) {
+        _didIteratorError2 = true;
+        _iteratorError2 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion2 && _iterator2.return) {
+            _iterator2.return();
+          }
+        } finally {
+          if (_didIteratorError2) {
+            throw _iteratorError2;
+          }
+        }
+      }
+
+      return connections;
+    },
+
+    /** Returns true or false if cell is a dead end (only one connection)
+      * @param {number} x The x coordinate
+      * @param {number} y The y coordinate
+      * @function
+      * @instance
+      * @returns {boolean}
+      * @memberof module:connection-grid-core
+      * @example <caption>usage</caption>
+      * let flag = core.isDeadEnd(1,2)
+      */
+    isDeadEnd: function isDeadEnd(x, y) {
+      return this.connectionCount(x, y) == 1;
     }
   });
 };

@@ -190,12 +190,12 @@ module.exports.create = (spec) => {
      */
     clearAllVisited: function () {
       // return this.set(x, y, this.get(x, y) & ~VISITED);
-      for(var row = 0; row < this.rows; row++) {
+      for (var row = 0; row < this.rows; row++) {
         var rs = this.rowSize(row);
-        for(var pos = 0; pos < rs; pos++) {
-            this.clearVisited(row,pos);
+        for (var pos = 0; pos < rs; pos++) {
+          this.clearVisited(row, pos);
         }
-    }
+      }
     },
     /** Returns true if a cell at x,y exists and it has been marked as visited.
       * @param {number} x The x coordinate
@@ -379,7 +379,7 @@ module.exports.create = (spec) => {
       * @returns {MaxDistance}
       * @memberof module:connection-grid-core
       * @example <caption>usage</caption>
-      * var d = core.getMaxDistance(1,2)
+      * let d = core.getMaxDistance(1,2)
       * console.log( "DISTANCE: " + d.x + ", " + d.y + " = " + d.distance );
      */
     getMaxDistance(x, y) {
@@ -403,39 +403,80 @@ module.exports.create = (spec) => {
       * @returns {MaxDistance}
       * @memberof module:connection-grid-core
      */
-    getDistance(x,y,distance) {
+    getDistance(x, y, distance) {
       // console.log( `DISTANCE:  ${x}, ${y} = ${distance}`);
-      if( this.visited( x, y )) {
-          // console.log(`RETURN - VISITED: ${x}, ${y}`);
-          return;
+      if (this.visited(x, y)) {
+        // console.log(`RETURN - VISITED: ${x}, ${y}`);
+        return;
       }
       // console.log(`markVisited: ${x},${y}`);
-      this.markVisited( x, y );
-      if( this.maxDistance.distance < distance ) {
-          this.maxDistance.x = x;
-          this.maxDistance.y = y;
-          this.maxDistance.distance = distance;
-          // console.log(`UPDATING MAX DISTANCE: ${this.maxDistance.distance}`)
-      } 
+      this.markVisited(x, y);
+      if (this.maxDistance.distance < distance) {
+        this.maxDistance.x = x;
+        this.maxDistance.y = y;
+        this.maxDistance.distance = distance;
+        // console.log(`UPDATING MAX DISTANCE: ${this.maxDistance.distance}`)
+      }
       console.log(this.maxDistance);
-      if( !this.hasConnections(x,y)) return;
-      var cell = this.get(x,y);
-      var list = this.getNeighborDirs(x, y);
-      for(var sDir of list) {
-          // console.log(`SCANNING: ${sDir}`);
-          if(!this.isDir(sDir)) {
-              console.error("getDistance unknown direction: ", sDir);
-              return;
-          }
-          var iDir = _DIR_MAP[sDir];
-          if((cell & iDir) != 0) {
-              // console.log(`# CONNECTS NEIGHBOR: ${sDir} `);
-              var neighbor = this.getNeighbor(x,y,sDir);
-              if( neighbor.x == -1 ) return;
-              this.getDistance( neighbor.x, neighbor.y, /* ++distance */ distance + 1 );
-          }
+      if (!this.hasConnections(x, y)) return;
+      let cell = this.get(x, y);
+      let list = this.getNeighborDirs(x, y);
+      for (let sDir of list) {
+        // console.log(`SCANNING: ${sDir}`);
+        if (!this.isDir(sDir)) {
+          console.error("getDistance unknown direction: ", sDir);
+          return;
+        }
+        let iDir = _DIR_MAP[sDir];
+        if ((cell & iDir) != 0) {
+          // console.log(`# CONNECTS NEIGHBOR: ${sDir} `);
+          let neighbor = this.getNeighbor(x, y, sDir);
+          if (neighbor.x == -1) return;
+          this.getDistance(neighbor.x, neighbor.y, /* ++distance */ distance + 1);
+        }
       }
     },
-  
+    /** Returns number of connections for cell
+      * @param {number} x The x coordinate
+      * @param {number} y The y coordinate
+      * @function
+      * @instance
+      * @returns {number}
+      * @memberof module:connection-grid-core
+      * @example <caption>usage</caption>
+      * let count = core.connectionCount(1,2)
+      */
+    connectionCount(x,y) {
+      if (!this.hasConnections(x, y)) return;
+      let cell = this.get(x, y);
+      let list = this.getNeighborDirs(x, y);
+      let connections = 0;
+      for(let sDir of list) {
+        // console.log(`DEBUG: connectionCount - scanning: ${sDir}`)
+        if (!this.isDir(sDir)) {
+          console.error("connectionCount unknown direction: ", sDir);
+          return 0;
+        }
+        let iDir = _DIR_MAP[sDir];
+        if ((cell & iDir) != 0) {
+          connections++;
+        }
+      }
+      return connections;
+    },
+    /** Returns true or false if cell is a dead end (only one connection)
+      * @param {number} x The x coordinate
+      * @param {number} y The y coordinate
+      * @function
+      * @instance
+      * @returns {boolean}
+      * @memberof module:connection-grid-core
+      * @example <caption>usage</caption>
+      * let flag = core.isDeadEnd(1,2)
+      */
+    isDeadEnd( x, y ) {
+      return this.connectionCount( x, y ) == 1;
+    },
+
   });
 };
