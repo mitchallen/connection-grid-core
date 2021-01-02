@@ -417,7 +417,7 @@ module.exports.create = (spec) => {
         this.maxDistance.distance = distance;
         // console.log(`UPDATING MAX DISTANCE: ${this.maxDistance.distance}`)
       }
-      console.log(this.maxDistance);
+      // console.log(this.maxDistance);
       if (!this.hasConnections(x, y)) return;
       let cell = this.get(x, y);
       let list = this.getNeighborDirs(x, y);
