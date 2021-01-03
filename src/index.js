@@ -225,6 +225,20 @@ module.exports.create = (spec) => {
     mask: function (x, y) {
       return this.set(x, y, this.get(x, y) | MASKED);
     },
+    /** Clear the mask flag from cell at x,y.
+      * Useful for maze generators to mark and clear cells to skip
+      * @param {number} x The x coordinate
+      * @param {number} y The y coordinate
+      * @function
+      * @instance
+      * @returns {boolean}
+      * @memberof module:connection-grid-core
+      * @example <caption>usage</caption>
+      * core.clearMask(1,2)
+     */
+    clearMask: function (x, y) {
+      return this.set(x, y, this.get(x, y) & ~MASKED);
+    },
     /** Returns true if a cell at x,y has been marked using [mask]{@link module:connection-grid-core#mask}.
       * @param {number} x The x coordinate
       * @param {number} y The y coordinate
@@ -542,6 +556,30 @@ module.exports.create = (spec) => {
       */
     isLeaf( x, y ) {
       return this.connectionCount( x, y ) == 1;
+    },
+    /** Clears all connections and flags from cell 
+      * @param {number} x The x coordinate
+      * @param {number} y The y coordinate
+      * @function
+      * @instance
+      * @returns {boolean}
+      * @memberof module:connection-grid-core
+      * @example <caption>usage</caption>
+      * let isCell = core.reset(1,2);
+      */
+     reset( x, y ) {
+      if (!this.isCell(x, y)) { return false; }
+      let list = this.getNeighborDirs(x, y);
+      for (let sDir of list) {
+        if (!this.isDir(sDir)) {
+          console.error(".reset unknown direction: ", sDir);
+          return false;
+        }
+        this.disconnectUndirected(x,y,sDir)
+      }
+      this.clearMask(x,y);
+      this.clearVisited(x,y);
+      return true;
     },
 
   });

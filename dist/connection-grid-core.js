@@ -270,6 +270,20 @@ module.exports.create = function (spec) {
     mask: function mask(x, y) {
       return this.set(x, y, this.get(x, y) | MASKED);
     },
+    /** Clear the mask flag from cell at x,y.
+      * Useful for maze generators to mark and clear cells to skip
+      * @param {number} x The x coordinate
+      * @param {number} y The y coordinate
+      * @function
+      * @instance
+      * @returns {boolean}
+      * @memberof module:connection-grid-core
+      * @example <caption>usage</caption>
+      * core.clearMask(1,2)
+     */
+    clearMask: function clearMask(x, y) {
+      return this.set(x, y, this.get(x, y) & ~MASKED);
+    },
     /** Returns true if a cell at x,y has been marked using [mask]{@link module:connection-grid-core#mask}.
       * @param {number} x The x coordinate
       * @param {number} y The y coordinate
@@ -643,6 +657,55 @@ module.exports.create = function (spec) {
       */
     isLeaf: function isLeaf(x, y) {
       return this.connectionCount(x, y) == 1;
+    },
+
+    /** Clears all connections and flags from cell 
+      * @param {number} x The x coordinate
+      * @param {number} y The y coordinate
+      * @function
+      * @instance
+      * @returns {boolean}
+      * @memberof module:connection-grid-core
+      * @example <caption>usage</caption>
+      * let isCell = core.reset(1,2);
+      */
+    reset: function reset(x, y) {
+      if (!this.isCell(x, y)) {
+        return false;
+      }
+      var list = this.getNeighborDirs(x, y);
+      var _iteratorNormalCompletion3 = true;
+      var _didIteratorError3 = false;
+      var _iteratorError3 = undefined;
+
+      try {
+        for (var _iterator3 = list[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+          var sDir = _step3.value;
+
+          if (!this.isDir(sDir)) {
+            console.error(".reset unknown direction: ", sDir);
+            return false;
+          }
+          this.disconnectUndirected(x, y, sDir);
+        }
+      } catch (err) {
+        _didIteratorError3 = true;
+        _iteratorError3 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion3 && _iterator3.return) {
+            _iterator3.return();
+          }
+        } finally {
+          if (_didIteratorError3) {
+            throw _iteratorError3;
+          }
+        }
+      }
+
+      this.clearMask(x, y);
+      this.clearVisited(x, y);
+      return true;
     }
   });
 };

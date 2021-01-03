@@ -310,6 +310,24 @@ describe('module smoke test', function () {
     done();
   });
 
+  it('isMasked should return false for a masked cell that was cleared', function (done) {
+    let xSize = 5,
+      ySize = 6;
+    let sourceGrid = gridSquare.create({ x: xSize, y: ySize });
+    let cg = _module.create({
+      grid: sourceGrid,
+      dirMap: _dirMap,
+      oppositeMap: _oppositeMap
+    })
+    let tX = 0;
+    let tY = 0;
+    cg.mask(tX, tY).should.eql(true);
+    cg.isMasked(tX, tY).should.eql(true);
+    cg.clearMask(tX, tY);
+    cg.isMasked(tX, tY).should.eql(false);
+    done();
+  });
+
   it('getOppositeDir should return opposite neighbor', function (done) {
     let xSize = 5,
       ySize = 6;
@@ -835,6 +853,40 @@ describe('module smoke test', function () {
     cg.disconnectUndirected(x, y, "N");
     cg.hasConnections(x, y).should.eql(false);
     cg.hasConnections(x, y - 1).should.eql(false);
+    done();
+  });
+
+  it('reset should remove all connection from both cells and flags from target', function (done) {
+    let sourceGrid = gridCore.create({ rows: 5 });
+    let cg = _module.create({
+      grid: sourceGrid,
+      dirMap: _dirMap,
+      oppositeMap: _oppositeMap
+    });
+
+    cg.set(1, 0, 0);
+    cg.set(1, 1, 0);
+
+    // override getNeighbor for test.
+    cg.getNeighbor = mockGetNeighbor;
+
+    // override getNeighborDirs for test.
+    cg.getNeighborDirs = mockGetNeighborDirs;
+
+    let x = 1, y = 1;
+    cg.connectUndirected(x, y, "N");
+    cg.hasConnections(x, y).should.eql(true);
+    cg.hasConnections(x, y - 1).should.eql(true);
+    cg.mask(x, y);
+    cg.markVisited(x, y);
+    cg.isMasked(x,y).should.equal(true);
+    cg.visited(x,y).should.eql(true);
+    // Reset
+    cg.reset(x, y);
+    cg.hasConnections(x, y).should.eql(false);
+    cg.hasConnections(x, y - 1).should.eql(false);
+    cg.isMasked(x,y).should.equal(false);
+    cg.visited(x,y).should.eql(false);
     done();
   });
 
