@@ -268,6 +268,7 @@ module.exports.create = (spec) => {
       }
       return false;
     },
+
     /** Maps a connection for a cell at x,y in a particular direction.
       * Unlike [connect]{@link module:connection-grid-core#connect} a cell in the direction does not have to exist.
       * Useful for mazes that need to open up border walls.
@@ -287,6 +288,27 @@ module.exports.create = (spec) => {
       }
       return this.set(x, y, this.get(x, y) | _DIR_MAP[dir]);
     },
+    
+    /** Removes a connection for a cell at x,y in a particular direction.
+      * Unlike [connect]{@link module:connection-grid-core#connect} a cell in the direction does not have to exist.
+      * @param {number} x The x coordinate
+      * @param {number} y The y coordinate
+      * @param {string} dir A string representing a direction
+      * @function
+      * @instance
+      * @memberof module:connection-grid-core
+      * @example <caption>usage</caption>
+      * core.close(0,0,"N");
+     */
+    close: function (x, y, dir) {
+      // dir must be string
+      if (!this.isDir(dir)) {
+        return false;
+      }
+      return this.set(x, y, this.get(x, y) & ~_DIR_MAP[dir]);
+    },
+
+
     /** Maps a connection for a cell at x,y in a particular direction.
       * Returns false if the cell in the target direction does not exist.
       * @param {number} x The x coordinate

@@ -340,6 +340,25 @@ describe('module smoke test', function () {
     done();
   });
 
+  it('close should disconnect a cell in the designated direction', function (done) {
+    let xSize = 5,
+      ySize = 6;
+    let sourceGrid = gridSquare.create({ x: xSize, y: ySize });
+    let cg = _module.create({
+      grid: sourceGrid,
+      dirMap: _dirMap,
+      oppositeMap: _oppositeMap
+    });
+    let tX = 0;
+    let tY = 0;
+    cg.connects(tX, tY, "N").should.eql(false);
+    cg.open(tX, tY, "N").should.eql(true);
+    cg.connects(tX, tY, "N").should.eql(true);
+    cg.close(tX, tY, "N").should.eql(true);
+    cg.connects(tX, tY, "N").should.eql(false);
+    done();
+  });
+
   it('isDir for non-string should return false', function (done) {
     let sourceGrid = gridCore.create({ rows: 5 });
     let cg = _module.create({
