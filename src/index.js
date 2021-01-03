@@ -308,7 +308,6 @@ module.exports.create = (spec) => {
       return this.set(x, y, this.get(x, y) & ~_DIR_MAP[dir]);
     },
 
-
     /** Maps a connection for a cell at x,y in a particular direction.
       * Returns false if the cell in the target direction does not exist.
       * @param {number} x The x coordinate
@@ -327,6 +326,25 @@ module.exports.create = (spec) => {
       if (!this.getNeighbor(x, y, dir)) return false;
       return this.open(x, y, dir);
     },
+    /** Removes connection for a cell at x,y in a particular direction.
+      * Returns false if the cell in the target direction does not exist.
+      * @param {number} x The x coordinate
+      * @param {number} y The y coordinate
+      * @param {string} dir A string representing a direction
+      * @function
+      * @instance
+      * @returns {boolean}
+      * @memberof module:connection-grid-core
+      * @example <caption>usage</caption>
+      * if(core.disconnect(1,2,"N")) ...
+     */
+    disconnect: function (x, y, dir) {
+      // dir must be string
+      // Disconnect cell from neighbor (one way)}
+      if (!this.getNeighbor(x, y, dir)) return false;
+      return this.close(x, y, dir);
+    },
+
     /** Maps a connection for a cell at x,y in a particular direction.
       * Also maps a connection from the target cell back to the source cell.
       * Returns false if the cell in the target direction does not exist.
@@ -351,6 +369,32 @@ module.exports.create = (spec) => {
       }
       return true;
     },
+
+    /** Removes a connection for a cell at x,y in a particular direction.
+      * Also removes a connection from the target cell back from the source cell.
+      * Returns false if the cell in the target direction does not exist.
+      * @param {number} x The x coordinate
+      * @param {number} y The y coordinate
+      * @param {string} dir A string representing a direction
+      * @function
+      * @instance
+      * @returns {boolean}
+      * @memberof module:connection-grid-core
+      * @example <caption>usage</caption>
+      * if(core.disconnectUndirected(1,2,"N")) ...
+     */
+    disconnectUndirected: function (x, y, sDir) {
+      // dir must be a string
+      if (!this.disconnect(x, y, sDir)) {
+        return false;
+      }
+      var n = this.getNeighbor(x, y, sDir);
+      if (!this.disconnect(n.x, n.y, _OPPOSITE[sDir])) {
+        return false;
+      }
+      return true;
+    },
+
     /** Returns true if a cell connects to a neighbor cell in a particular direction.
       * It does not matter if a the target cell exists such as when [open]{@link module:connection-grid-core#open} maps a connection to a non-existant cell.
       * @param {number} x The x coordinate
@@ -494,7 +538,7 @@ module.exports.create = (spec) => {
       * @returns {boolean}
       * @memberof module:connection-grid-core
       * @example <caption>usage</caption>
-      * let flag = core.isLeaf(1,2)
+      * let flag = core.isLeaf(1,2);
       */
     isLeaf( x, y ) {
       return this.connectionCount( x, y ) == 1;

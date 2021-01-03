@@ -786,4 +786,56 @@ describe('module smoke test', function () {
     done();
   });
 
+  it('disconnect should remove the connection for a cell (one way)', function (done) {
+    let sourceGrid = gridCore.create({ rows: 5 });
+    let cg = _module.create({
+      grid: sourceGrid,
+      dirMap: _dirMap,
+      oppositeMap: _oppositeMap
+    });
+
+    cg.set(1, 0, 0);
+    cg.set(1, 1, 0);
+
+    // override getNeighbor for test.
+    cg.getNeighbor = mockGetNeighbor;
+
+    // override getNeighborDirs for test.
+    cg.getNeighborDirs = mockGetNeighborDirs;
+
+    let x = 1, y = 1;
+    cg.connect(x, y, "N");
+    cg.hasConnections(x, y).should.eql(true);
+    cg.disconnect(x, y, "N");
+    cg.hasConnections(x, y).should.eql(false);
+    done();
+  });
+
+  it('disconnectUndirected should remove connection from both cells', function (done) {
+    let sourceGrid = gridCore.create({ rows: 5 });
+    let cg = _module.create({
+      grid: sourceGrid,
+      dirMap: _dirMap,
+      oppositeMap: _oppositeMap
+    });
+
+    cg.set(1, 0, 0);
+    cg.set(1, 1, 0);
+
+    // override getNeighbor for test.
+    cg.getNeighbor = mockGetNeighbor;
+
+    // override getNeighborDirs for test.
+    cg.getNeighborDirs = mockGetNeighborDirs;
+
+    let x = 1, y = 1;
+    cg.connectUndirected(x, y, "N");
+    cg.hasConnections(x, y).should.eql(true);
+    cg.hasConnections(x, y - 1).should.eql(true);
+    cg.disconnectUndirected(x, y, "N");
+    cg.hasConnections(x, y).should.eql(false);
+    cg.hasConnections(x, y - 1).should.eql(false);
+    done();
+  });
+
 });
