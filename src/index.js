@@ -464,7 +464,7 @@ module.exports.create = (spec) => {
       }
       return connections;
     },
-    /** Returns true or false if cell is a dead end (only one connection)
+    /** Returns true or false if cell is a dead end / leaf node (only one connection)
       * @param {number} x The x coordinate
       * @param {number} y The y coordinate
       * @function
@@ -472,9 +472,9 @@ module.exports.create = (spec) => {
       * @returns {boolean}
       * @memberof module:connection-grid-core
       * @example <caption>usage</caption>
-      * let flag = core.isDeadEnd(1,2)
+      * let flag = core.isLeaf(1,2)
       */
-    isDeadEnd( x, y ) {
+    isLeaf( x, y ) {
       return this.connectionCount( x, y ) == 1;
     },
 

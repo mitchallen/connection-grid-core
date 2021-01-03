@@ -683,7 +683,7 @@ describe('module smoke test', function () {
     done();
   });
 
-  it('isDeadEnd should return true or false for deadend', function (done) {
+  it('isLeaf should return true or false for deadend', function (done) {
 
     let sourceGrid = gridCore.create({ rows: 5 });
 
@@ -716,10 +716,10 @@ describe('module smoke test', function () {
     cg.connectUndirected( n2.x, n2.y, "S");
     let n3 = cg.getNeighbor(n2.x, n2.y, "S");
     console.log("S", n3);
-    cg.isDeadEnd(startX, startY).should.eql(true);
-    cg.isDeadEnd(n1.x, n1.y).should.eql(false);
-    cg.isDeadEnd(n2.x, n2.y).should.eql(false);
-    cg.isDeadEnd(n3.x, n3.y).should.eql(true);
+    cg.isLeaf(startX, startY).should.eql(true);
+    cg.isLeaf(n1.x, n1.y).should.eql(false);
+    cg.isLeaf(n2.x, n2.y).should.eql(false);
+    cg.isLeaf(n3.x, n3.y).should.eql(true);
     done();
   });
 
