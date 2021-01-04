@@ -879,14 +879,20 @@ describe('module smoke test', function () {
     cg.hasConnections(x, y - 1).should.eql(true);
     cg.mask(x, y);
     cg.markVisited(x, y);
+    cg.markRed(x, y);
+    cg.markGreen(x, y);
     cg.isMasked(x,y).should.equal(true);
     cg.visited(x,y).should.eql(true);
+    cg.isRed(x,y).should.equal(true);
+    cg.isGreen(x,y).should.equal(true);
     // Reset
     cg.reset(x, y);
     cg.hasConnections(x, y).should.eql(false);
     cg.hasConnections(x, y - 1).should.eql(false);
     cg.isMasked(x,y).should.equal(false);
     cg.visited(x,y).should.eql(false);
+    cg.isRed(x,y).should.equal(false);
+    cg.isGreen(x,y).should.equal(false);
     done();
   });
 

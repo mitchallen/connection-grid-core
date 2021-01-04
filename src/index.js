@@ -67,6 +67,8 @@ module.exports.create = (spec) => {
   // bit masks
   let VISITED = 0x01;
   let MASKED = 0x02;
+  let RED = 0x04;
+  let GREEN = 0x08;
 
   Object.defineProperties(_grid, {
     "dirMap": {
@@ -305,6 +307,89 @@ module.exports.create = (spec) => {
       // return ((this.get(x, y) & MASKED) !== 0);
       return this.isFlagSet(x,y,MASKED);
     },
+
+    /** Marks a cell at x,y as red.
+      * @param {number} x The x coordinate
+      * @param {number} y The y coordinate
+      * @function
+      * @instance
+      * @returns {boolean}
+      * @memberof module:connection-grid-core
+      * @example <caption>usage</caption>
+      * core.markRed(1,2)
+     */
+    markRed: function (x, y) {
+      return this.setFlag(x,y,RED);
+    },
+    /** Clear the red flag from cell at x,y.
+      * @param {number} x The x coordinate
+      * @param {number} y The y coordinate
+      * @function
+      * @instance
+      * @returns {boolean}
+      * @memberof module:connection-grid-core
+      * @example <caption>usage</caption>
+      * core.clearRed(1,2)
+     */
+    clearRed: function (x, y) {
+      return this.clearFlag(x,y,RED);
+    },
+    /** Returns true if a cell at x,y has been set red using [markRed]{@link module:connection-grid-core#markRed}.
+      * @param {number} x The x coordinate
+      * @param {number} y The y coordinate
+      * @function
+      * @instance
+      * @returns {boolean}
+      * @memberof module:connection-grid-core
+      * @example <caption>usage</caption>
+      * if(core.isRed(1,2)) ...
+     */
+    isRed: function (x, y) {
+      if (!this.isCell(x, y)) { return false; }
+      return this.isFlagSet(x,y,RED);
+    },
+
+    /** Marks a cell at x,y as green.
+      * @param {number} x The x coordinate
+      * @param {number} y The y coordinate
+      * @function
+      * @instance
+      * @returns {boolean}
+      * @memberof module:connection-grid-core
+      * @example <caption>usage</caption>
+      * core.markGreen(1,2)
+     */
+    markGreen: function (x, y) {
+      return this.setFlag(x,y,GREEN);
+    },
+    /** Clear the green flag from cell at x,y.
+      * @param {number} x The x coordinate
+      * @param {number} y The y coordinate
+      * @function
+      * @instance
+      * @returns {boolean}
+      * @memberof module:connection-grid-core
+      * @example <caption>usage</caption>
+      * core.clearGreen(1,2)
+     */
+    clearGreen: function (x, y) {
+      return this.clearFlag(x,y,GREEN);
+    },
+    /** Returns true if a cell at x,y has been set green using [markGreen]{@link module:connection-grid-core#markGreen}.
+      * @param {number} x The x coordinate
+      * @param {number} y The y coordinate
+      * @function
+      * @instance
+      * @returns {boolean}
+      * @memberof module:connection-grid-core
+      * @example <caption>usage</caption>
+      * if(core.isGreen(1,2)) ...
+     */
+    isGreen: function (x, y) {
+      if (!this.isCell(x, y)) { return false; }
+      return this.isFlagSet(x,y,GREEN);
+    },
+
     /** Returns true if a cell at x,y has connections.
       * @param {number} x The x coordinate
       * @param {number} y The y coordinate
@@ -318,12 +403,11 @@ module.exports.create = (spec) => {
     hasConnections: function (x, y) {
       let cell = this.get(x, y);
       if (cell === null) { return false; }
-      // TODO - also discount MASKED and any other flags
-      cell = cell & ~VISITED; // discount visited flag
+      // Discount non-dir connection flags
+      cell = cell & ~(VISITED | MASKED | RED | GREEN); 
       if (cell === 0) { return false; }
       let list = this.getNeighborDirs(x, y);
-      for (var key in list) {
-        let sDir = list[key];
+      for (let sDir of list) {
         if (!this.isDir(sDir)) {
           console.error("hasConnections unknown direction: ", sDir);
           return false;
@@ -634,6 +718,8 @@ module.exports.create = (spec) => {
       }
       this.clearMask(x, y);
       this.clearVisited(x, y);
+      this.clearRed(x, y);
+      this.clearGreen(x, y);
       return true;
     },
 
