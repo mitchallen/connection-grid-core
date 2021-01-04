@@ -198,6 +198,58 @@ module.exports.create = function (spec) {
       var shuffler = shuffleFactory.create({ array: this.getNeighborDirs(x, y) });
       return shuffler.shuffle();
     },
+
+    /** Sets a flag in a cell at x,y
+        * @param {number} x The x coordinate
+        * @param {number} y The y coordinate
+        * @function
+        * @instance
+        * @returns {boolean}
+        * @memberof module:connection-grid-core
+        * @example <caption>usage</caption>
+        * core.setFlag(1,2,VISITED);
+       */
+    setFlag: function setFlag(x, y, flag) {
+      if (!this.isCell(x, y)) {
+        return false;
+      }
+      return this.set(x, y, this.get(x, y) | flag);
+    },
+
+    /** Clears a flag from cell
+       * @param {number} x The x coordinate
+       * @param {number} y The y coordinate
+       * @function
+       * @instance
+       * @returns {boolean}
+       * @memberof module:connection-grid-core
+       * @example <caption>usage</caption>
+       * core.clearFlag(1,2,flag);
+      */
+    clearFlag: function clearFlag(x, y, flag) {
+      if (!this.isCell(x, y)) {
+        return false;
+      }
+      return this.set(x, y, this.get(x, y) & ~flag);
+    },
+
+    /** Returns true if a cell at x,y exists and flag has been set.
+    * @param {number} x The x coordinate
+    * @param {number} y The y coordinate
+    * @function
+    * @instance
+    * @returns {boolean}
+    * @memberof module:connection-grid-core
+    * @example <caption>usage</caption>
+    * if(core.isFlagSet(x,y,VISITED)) ...
+    */
+    isFlagSet: function isFlagSet(x, y, flag) {
+      if (!this.isCell(x, y)) {
+        return false;
+      }
+      return (this.get(x, y) & flag) !== 0;
+    },
+
     /** Marks a cell at x,y as visited.
       * @param {number} x The x coordinate
       * @param {number} y The y coordinate
@@ -209,7 +261,8 @@ module.exports.create = function (spec) {
       * core.markVisited(1,2);
      */
     markVisited: function markVisited(x, y) {
-      return this.set(x, y, this.get(x, y) | VISITED);
+      // return this.set(x, y, this.get(x, y) | VISITED);
+      return this.setFlag(x, y, VISITED);
     },
     /** Clears visit flag from cell
       * @param {number} x The x coordinate
@@ -222,7 +275,8 @@ module.exports.create = function (spec) {
       * core.clearVisited(1,2);
      */
     clearVisited: function clearVisited(x, y) {
-      return this.set(x, y, this.get(x, y) & ~VISITED);
+      // return this.set(x, y, this.get(x, y) & ~VISITED);
+      return this.clearFlag(x, y, VISITED);
     },
     /** Clear all visited flag from grid
       * @function
@@ -254,7 +308,8 @@ module.exports.create = function (spec) {
       if (!this.isCell(x, y)) {
         return false;
       }
-      return (this.get(x, y) & VISITED) !== 0;
+      // return ((this.get(x, y) & VISITED) !== 0);
+      return this.isFlagSet(x, y, VISITED);
     },
     /** Marks a cell at x,y as masked.
       * Useful for maze generators to mark cells to skip
@@ -268,7 +323,8 @@ module.exports.create = function (spec) {
       * core.mask(1,2)
      */
     mask: function mask(x, y) {
-      return this.set(x, y, this.get(x, y) | MASKED);
+      // return this.set(x, y, this.get(x, y) | MASKED);
+      return this.setFlag(x, y, MASKED);
     },
     /** Clear the mask flag from cell at x,y.
       * Useful for maze generators to mark and clear cells to skip
@@ -282,7 +338,8 @@ module.exports.create = function (spec) {
       * core.clearMask(1,2)
      */
     clearMask: function clearMask(x, y) {
-      return this.set(x, y, this.get(x, y) & ~MASKED);
+      // return this.set(x, y, this.get(x, y) & ~MASKED);
+      return this.clearFlag(x, y, MASKED);
     },
     /** Returns true if a cell at x,y has been marked using [mask]{@link module:connection-grid-core#mask}.
       * @param {number} x The x coordinate
@@ -298,7 +355,8 @@ module.exports.create = function (spec) {
       if (!this.isCell(x, y)) {
         return false;
       }
-      return (this.get(x, y) & MASKED) !== 0;
+      // return ((this.get(x, y) & MASKED) !== 0);
+      return this.isFlagSet(x, y, MASKED);
     },
     /** Returns true if a cell at x,y has connections.
       * @param {number} x The x coordinate
@@ -315,6 +373,7 @@ module.exports.create = function (spec) {
       if (cell === null) {
         return false;
       }
+      // TODO - also discount MASKED and any other flags
       cell = cell & ~VISITED; // discount visited flag
       if (cell === 0) {
         return false;
@@ -351,7 +410,8 @@ module.exports.create = function (spec) {
       if (!this.isDir(dir)) {
         return false;
       }
-      return this.set(x, y, this.get(x, y) | _DIR_MAP[dir]);
+      // return this.set(x, y, this.get(x, y) | _DIR_MAP[dir]);
+      return this.setFlag(x, y, _DIR_MAP[dir]);
     },
 
     /** Removes a connection for a cell at x,y in a particular direction.
@@ -370,7 +430,8 @@ module.exports.create = function (spec) {
       if (!this.isDir(dir)) {
         return false;
       }
-      return this.set(x, y, this.get(x, y) & ~_DIR_MAP[dir]);
+      // return this.set(x, y, this.get(x, y) & ~_DIR_MAP[dir]);
+      return this.clearFlag(x, y, _DIR_MAP[dir]);
     },
 
     /** Maps a connection for a cell at x,y in a particular direction.
