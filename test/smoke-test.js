@@ -896,4 +896,92 @@ describe('module smoke test', function () {
     done();
   });
 
+  it('clearAllVisited should clear all visited cells', function (done) {
+    let xSize = 5,
+      ySize = 6;
+    let sourceGrid = gridSquare.create({ x: xSize, y: ySize });
+    let cg = _module.create({
+      grid: sourceGrid,
+      dirMap: _dirMap,
+      oppositeMap: _oppositeMap
+    });
+    let tX = 0;
+    let tY = 0;
+    let VISITED = 0x01;
+    let result = cg.markVisited(tX, tY);
+    result.should.eql(true);
+    cg.visited(tX, tY).should.eql(true);
+    cg.get(tX, tY).should.eql(VISITED);
+    cg.clearAllVisited(tX, tY);
+    cg.visited(tX, tY).should.eql(false)
+    cg.get(tX, tY).should.not.eql(VISITED);
+    done();
+  });
+
+  it('clearAllMasks should clear all mask cells', function (done) {
+    let xSize = 5,
+      ySize = 6;
+    let sourceGrid = gridSquare.create({ x: xSize, y: ySize });
+    let cg = _module.create({
+      grid: sourceGrid,
+      dirMap: _dirMap,
+      oppositeMap: _oppositeMap
+    });
+    let tX = 0;
+    let tY = 0;
+    let MASKED = 0x02;
+    let result = cg.mask(tX, tY);
+    result.should.eql(true);
+    cg.isMasked(tX, tY).should.eql(true);
+    cg.get(tX, tY).should.eql(MASKED);
+    cg.clearAllMasks(tX, tY);
+    cg.isMasked(tX, tY).should.eql(false)
+    cg.get(tX, tY).should.not.eql(MASKED);
+    done();
+  });
+
+  it('clearAllRed should clear all red cells', function (done) {
+    let xSize = 5,
+      ySize = 6;
+    let sourceGrid = gridSquare.create({ x: xSize, y: ySize });
+    let cg = _module.create({
+      grid: sourceGrid,
+      dirMap: _dirMap,
+      oppositeMap: _oppositeMap
+    });
+    let tX = 0;
+    let tY = 0;
+    let RED = 0x04;
+    let result = cg.markRed(tX, tY);
+    result.should.eql(true);
+    cg.isRed(tX, tY).should.eql(true);
+    cg.get(tX, tY).should.eql(RED);
+    cg.clearAllRed(tX, tY);
+    cg.isRed(tX, tY).should.eql(false)
+    cg.get(tX, tY).should.not.eql(RED);
+    done();
+  });
+
+  it('clearAllGreen should clear all green cells', function (done) {
+    let xSize = 5,
+      ySize = 6;
+    let sourceGrid = gridSquare.create({ x: xSize, y: ySize });
+    let cg = _module.create({
+      grid: sourceGrid,
+      dirMap: _dirMap,
+      oppositeMap: _oppositeMap
+    });
+    let tX = 0;
+    let tY = 0;
+    let GREEN = 0x08;
+    let result = cg.markGreen(tX, tY);
+    result.should.eql(true);
+    cg.isGreen(tX, tY).should.eql(true);
+    cg.get(tX, tY).should.eql(GREEN);
+    cg.clearAllGreen(tX, tY);
+    cg.isGreen(tX, tY).should.eql(false)
+    cg.get(tX, tY).should.not.eql(GREEN);
+    done();
+  });
+
 });
