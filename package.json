@@ -33,7 +33,7 @@
     "grunt-bump": "^0.0.1",
     "grunt-contrib-jshint": "^3.2.0",
     "grunt-contrib-uglify": "^2.0.0",
-    "grunt-contrib-watch": "^0.4.4",
+    "grunt-contrib-watch": "^1.1.0",
     "grunt-jsdoc-to-markdown": "^6.0.0",
     "grunt-shell": "^1.1.2",
     "istanbul": "^0.4.5",
