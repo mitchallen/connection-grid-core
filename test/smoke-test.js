@@ -6,12 +6,11 @@
 
 "use strict";
 
-let request = require('supertest'),
-  should = require('should'),
-  gridCore = require('@mitchallen/grid-core'),
-  gridSquare = require('@mitchallen/grid-square'),
-  // modulePath = "../dist/connection-grid-core";
-  modulePath = "../src/index";
+const { describe, it, before, after, beforeEach, afterEach } = require('node:test');
+const assert = require('node:assert');
+const gridCore = require('@mitchallen/grid-core');
+const gridSquare = require('@mitchallen/grid-square');
+const modulePath = "../src/index";
 
 describe('module smoke test', function () {
 
@@ -47,51 +46,44 @@ describe('module smoke test', function () {
     return ["N", "S", "E", "W"];
   }
 
-  before(function (done) {
+  before(function() {
     // Call before all tests
     delete require.cache[require.resolve(modulePath)];
     _module = require(modulePath);
-    done();
   });
 
-  after(function (done) {
+  after(function() {
     // Call after all tests
-    done();
   });
 
-  beforeEach(function (done) {
+  beforeEach(function() {
     // Call before each test
-    done();
   });
 
-  afterEach(function (done) {
+  afterEach(function() {
     // Call after eeach test
-    done();
   });
 
-  it('module should exist', function (done) {
-    should.exist(_module);
-    done();
+  it('module should exist', function() {
+    assert.ok(_module != null);
   });
 
-  it('create method with no spec should return null', function (done) {
+  it('create method with no spec should return null', function() {
     let cg = _module.create();
-    should.not.exist(cg);
-    done();
+    assert.ok(cg == null);
   });
 
-  it('create method with valid parameters should return object', function (done) {
+  it('create method with valid parameters should return object', function() {
     let sourceGrid = gridCore.create({ rows: 5 });
     let cg = _module.create({
       grid: sourceGrid,
       dirMap: _dirMap,
       oppositeMap: _oppositeMap
     });
-    should.exist(cg);
-    done();
+    assert.ok(cg != null);
   });
 
-  it('getNeighborDirs should return empty list', function (done) {
+  it('getNeighborDirs should return empty list', function() {
     let xSize = 5,
       ySize = 6;
     let sourceGrid = gridSquare.create({ x: xSize, y: ySize });
@@ -101,11 +93,10 @@ describe('module smoke test', function () {
       dirMap: _dirMap,
       oppositeMap: _oppositeMap
     });
-    cg.getNeighborDirs(1, 1).should.eql([]);
-    done();
+    assert.deepStrictEqual(cg.getNeighborDirs(1, 1), []);
   });
 
-  it('getShuffledNeighborDirs should return empty list', function (done) {
+  it('getShuffledNeighborDirs should return empty list', function() {
     let xSize = 5,
       ySize = 6;
     let sourceGrid = gridSquare.create({ x: xSize, y: ySize });
@@ -117,11 +108,10 @@ describe('module smoke test', function () {
     let tX = 1;
     let tY = 2;
     let shuffled = cg.getShuffledNeighborDirs(tX, tY);
-    shuffled.length.should.eql(0);
-    done();
+    assert.deepStrictEqual(shuffled.length, 0);
   });
 
-  it('markVisited should return true for valid cell', function (done) {
+  it('markVisited should return true for valid cell', function() {
     let xSize = 5,
       ySize = 6;
     let sourceGrid = gridSquare.create({ x: xSize, y: ySize });
@@ -134,12 +124,11 @@ describe('module smoke test', function () {
     let tY = 0;
     let VISITED = 0x01;
     let result = cg.markVisited(tX, tY);
-    result.should.eql(true);
-    cg.get(tX, tY).should.eql(VISITED);
-    done();
+    assert.deepStrictEqual(result, true);
+    assert.deepStrictEqual(cg.get(tX, tY), VISITED);
   });
 
-  it('clearVisited should return true for cleared cell', function (done) {
+  it('clearVisited should return true for cleared cell', function() {
     let xSize = 5,
       ySize = 6;
     let sourceGrid = gridSquare.create({ x: xSize, y: ySize });
@@ -152,14 +141,13 @@ describe('module smoke test', function () {
     let tY = 0;
     let VISITED = 0x01;
     let result = cg.markVisited(tX, tY);
-    result.should.eql(true);
-    cg.get(tX, tY).should.eql(VISITED);
+    assert.deepStrictEqual(result, true);
+    assert.deepStrictEqual(cg.get(tX, tY), VISITED);
     cg.clearVisited(tX, tY);
-    cg.get(tX, tY).should.not.eql(VISITED);
-    done();
+    assert.notDeepStrictEqual(cg.get(tX, tY), VISITED);
   });
 
-  it('visited should return true for a visited cell', function (done) {
+  it('visited should return true for a visited cell', function() {
     let xSize = 5,
       ySize = 6;
     let sourceGrid = gridSquare.create({ x: xSize, y: ySize });
@@ -170,12 +158,11 @@ describe('module smoke test', function () {
     });
     let tX = 0;
     let tY = 0;
-    cg.markVisited(tX, tY).should.eql(true);
-    cg.visited(tX, tY).should.eql(true);
-    done();
+    assert.deepStrictEqual(cg.markVisited(tX, tY), true);
+    assert.deepStrictEqual(cg.visited(tX, tY), true);
   });
 
-  it('hasConnections should return false when nothing connected', function (done) {
+  it('hasConnections should return false when nothing connected', function() {
     let xSize = 5,
       ySize = 6;
     let sourceGrid = gridSquare.create({ x: xSize, y: ySize });
@@ -186,11 +173,10 @@ describe('module smoke test', function () {
     })
     let tX = 0;
     let tY = 0;
-    cg.hasConnections(tX, tY).should.eql(false);
-    done();
+    assert.deepStrictEqual(cg.hasConnections(tX, tY), false);
   });
 
-  it('getNeighbor should return null', function (done) {
+  it('getNeighbor should return null', function() {
     let xSize = 5,
       ySize = 6;
     let sourceGrid = gridSquare.create({ x: xSize, y: ySize });
@@ -203,11 +189,10 @@ describe('module smoke test', function () {
     let tY = 3;
     // derived class needs to override
     let result = cg.getNeighbor(tX, tY, "S");
-    should.not.exist(result);
-    done();
+    assert.ok(result == null);
   });
 
-  it('connect should return false for base class', function (done) {
+  it('connect should return false for base class', function() {
     let xSize = 5,
       ySize = 6;
     let sourceGrid = gridSquare.create({ x: xSize, y: ySize });
@@ -219,11 +204,10 @@ describe('module smoke test', function () {
     let tX = 0;
     let tY = 0;
     // because base class doesn't handle neighbors
-    cg.connect(tX, tY, "S").should.eql(false);
-    done();
+    assert.deepStrictEqual(cg.connect(tX, tY, "S"), false);
   });
 
-  it('connectUndirected should return false for base class', function (done) {
+  it('connectUndirected should return false for base class', function() {
     let xSize = 5,
       ySize = 6;
     let sourceGrid = gridSquare.create({ x: xSize, y: ySize });
@@ -235,11 +219,10 @@ describe('module smoke test', function () {
     let tX = 0;
     let tY = 0;
     // base class doesn't define neighbors
-    cg.connectUndirected(tX, tY, "S").should.eql(false);
-    done();
+    assert.deepStrictEqual(cg.connectUndirected(tX, tY, "S"), false);
   });
 
-  it('connects should return false for base class', function (done) {
+  it('connects should return false for base class', function() {
     let xSize = 5,
       ySize = 6;
     let sourceGrid = gridSquare.create({ x: xSize, y: ySize });
@@ -251,11 +234,10 @@ describe('module smoke test', function () {
     let tX = 0;
     let tY = 0;
     // base class doesn't know about neighbors
-    cg.connects(tX, tY, "S").should.eql(false);
-    done();
+    assert.deepStrictEqual(cg.connects(tX, tY, "S"), false);
   });
 
-  it('connects should return false for non-string direction', function (done) {
+  it('connects should return false for non-string direction', function() {
     let xSize = 5,
       ySize = 6;
     let sourceGrid = gridSquare.create({ x: xSize, y: ySize });
@@ -273,11 +255,10 @@ describe('module smoke test', function () {
 
     // override getNeighborDirs for test.
     cg.getNeighborDirs = mockGetNeighborDirs;
-    cg.connects(1, 0, 1).should.eql(false);
-    done();
+    assert.deepStrictEqual(cg.connects(1, 0, 1), false);
   });
 
-  it('connects should return false for non-existant cell', function (done) {
+  it('connects should return false for non-existant cell', function() {
     let xSize = 5,
       ySize = 6;
     let sourceGrid = gridSquare.create({ x: xSize, y: ySize });
@@ -290,11 +271,10 @@ describe('module smoke test', function () {
     cg.getNeighbor = mockGetNeighbor;
     // override getNeighborDirs for test.
     cg.getNeighborDirs = mockGetNeighborDirs;
-    cg.connects(-1, 0, "N").should.eql(false);
-    done();
+    assert.deepStrictEqual(cg.connects(-1, 0, "N"), false);
   });
 
-  it('isMasked should return true for a masked cell', function (done) {
+  it('isMasked should return true for a masked cell', function() {
     let xSize = 5,
       ySize = 6;
     let sourceGrid = gridSquare.create({ x: xSize, y: ySize });
@@ -305,12 +285,11 @@ describe('module smoke test', function () {
     })
     let tX = 0;
     let tY = 0;
-    cg.mask(tX, tY).should.eql(true);
-    cg.isMasked(tX, tY).should.eql(true);
-    done();
+    assert.deepStrictEqual(cg.mask(tX, tY), true);
+    assert.deepStrictEqual(cg.isMasked(tX, tY), true);
   });
 
-  it('isMasked should return false for a masked cell that was cleared', function (done) {
+  it('isMasked should return false for a masked cell that was cleared', function() {
     let xSize = 5,
       ySize = 6;
     let sourceGrid = gridSquare.create({ x: xSize, y: ySize });
@@ -321,14 +300,13 @@ describe('module smoke test', function () {
     })
     let tX = 0;
     let tY = 0;
-    cg.mask(tX, tY).should.eql(true);
-    cg.isMasked(tX, tY).should.eql(true);
+    assert.deepStrictEqual(cg.mask(tX, tY), true);
+    assert.deepStrictEqual(cg.isMasked(tX, tY), true);
     cg.clearMask(tX, tY);
-    cg.isMasked(tX, tY).should.eql(false);
-    done();
+    assert.deepStrictEqual(cg.isMasked(tX, tY), false);
   });
 
-  it('getOppositeDir should return opposite neighbor', function (done) {
+  it('getOppositeDir should return opposite neighbor', function() {
     let xSize = 5,
       ySize = 6;
     let sourceGrid = gridSquare.create({ x: xSize, y: ySize });
@@ -337,28 +315,10 @@ describe('module smoke test', function () {
       dirMap: _dirMap,
       oppositeMap: _oppositeMap
     });
-    cg.getOppositeDir("N").should.eql("S");
-    done();
+    assert.deepStrictEqual(cg.getOppositeDir("N"), "S");
   });
 
-  it('open should connect a cell in the designated direction', function (done) {
-    let xSize = 5,
-      ySize = 6;
-    let sourceGrid = gridSquare.create({ x: xSize, y: ySize });
-    let cg = _module.create({
-      grid: sourceGrid,
-      dirMap: _dirMap,
-      oppositeMap: _oppositeMap
-    });
-    let tX = 0;
-    let tY = 0;
-    cg.connects(tX, tY, "N").should.eql(false);
-    cg.open(tX, tY, "N").should.eql(true);
-    cg.connects(tX, tY, "N").should.eql(true);
-    done();
-  });
-
-  it('close should disconnect a cell in the designated direction', function (done) {
+  it('open should connect a cell in the designated direction', function() {
     let xSize = 5,
       ySize = 6;
     let sourceGrid = gridSquare.create({ x: xSize, y: ySize });
@@ -369,26 +329,40 @@ describe('module smoke test', function () {
     });
     let tX = 0;
     let tY = 0;
-    cg.connects(tX, tY, "N").should.eql(false);
-    cg.open(tX, tY, "N").should.eql(true);
-    cg.connects(tX, tY, "N").should.eql(true);
-    cg.close(tX, tY, "N").should.eql(true);
-    cg.connects(tX, tY, "N").should.eql(false);
-    done();
+    assert.deepStrictEqual(cg.connects(tX, tY, "N"), false);
+    assert.deepStrictEqual(cg.open(tX, tY, "N"), true);
+    assert.deepStrictEqual(cg.connects(tX, tY, "N"), true);
   });
 
-  it('isDir for non-string should return false', function (done) {
+  it('close should disconnect a cell in the designated direction', function() {
+    let xSize = 5,
+      ySize = 6;
+    let sourceGrid = gridSquare.create({ x: xSize, y: ySize });
+    let cg = _module.create({
+      grid: sourceGrid,
+      dirMap: _dirMap,
+      oppositeMap: _oppositeMap
+    });
+    let tX = 0;
+    let tY = 0;
+    assert.deepStrictEqual(cg.connects(tX, tY, "N"), false);
+    assert.deepStrictEqual(cg.open(tX, tY, "N"), true);
+    assert.deepStrictEqual(cg.connects(tX, tY, "N"), true);
+    assert.deepStrictEqual(cg.close(tX, tY, "N"), true);
+    assert.deepStrictEqual(cg.connects(tX, tY, "N"), false);
+  });
+
+  it('isDir for non-string should return false', function() {
     let sourceGrid = gridCore.create({ rows: 5 });
     let cg = _module.create({
       grid: sourceGrid,
       dirMap: _dirMap,
       oppositeMap: _oppositeMap
     });
-    cg.isDir(1).should.eql(false);
-    done();
+    assert.deepStrictEqual(cg.isDir(1), false);
   });
 
-  it('getOppositeDir for non-string should return null', function (done) {
+  it('getOppositeDir for non-string should return null', function() {
     let sourceGrid = gridCore.create({ rows: 5 });
     let cg = _module.create({
       grid: sourceGrid,
@@ -396,44 +370,40 @@ describe('module smoke test', function () {
       oppositeMap: _oppositeMap
     });
     let result = cg.getOppositeDir(1);
-    should.not.exist(result);
-    done();
+    assert.ok(result == null);
   });
 
-  it('visited for a cell that was not visited should return false', function (done) {
+  it('visited for a cell that was not visited should return false', function() {
     let sourceGrid = gridCore.create({ rows: 5 });
     let cg = _module.create({
       grid: sourceGrid,
       dirMap: _dirMap,
       oppositeMap: _oppositeMap
     });
-    cg.visited(0, 0).should.eql(false);
-    done();
+    assert.deepStrictEqual(cg.visited(0, 0), false);
   });
 
-  it('isMasked for a cell that was not masked should return false', function (done) {
+  it('isMasked for a cell that was not masked should return false', function() {
     let sourceGrid = gridCore.create({ rows: 5 });
     let cg = _module.create({
       grid: sourceGrid,
       dirMap: _dirMap,
       oppositeMap: _oppositeMap
     });
-    cg.isMasked(0, 0).should.eql(false);
-    done();
+    assert.deepStrictEqual(cg.isMasked(0, 0), false);
   });
 
-  it('hasConnections for a non-existant cell should return false', function (done) {
+  it('hasConnections for a non-existant cell should return false', function() {
     let sourceGrid = gridCore.create({ rows: 5 });
     let cg = _module.create({
       grid: sourceGrid,
       dirMap: _dirMap,
       oppositeMap: _oppositeMap
     });
-    cg.hasConnections(-1, 0).should.eql(false);
-    done();
+    assert.deepStrictEqual(cg.hasConnections(-1, 0), false);
   });
 
-  it('hasConnections for a cell that has no connections should return false', function (done) {
+  it('hasConnections for a cell that has no connections should return false', function() {
     let sourceGrid = gridCore.create({ rows: 5 });
     let cg = _module.create({
       grid: sourceGrid,
@@ -451,11 +421,10 @@ describe('module smoke test', function () {
     cg.getNeighborDirs = mockGetNeighborDirs;
 
     let x = 1, y = 1;
-    cg.hasConnections(x, y).should.eql(false);
-    done();
+    assert.deepStrictEqual(cg.hasConnections(x, y), false);
   });
 
-  it('hasConnections for a cell that has connections should return true', function (done) {
+  it('hasConnections for a cell that has connections should return true', function() {
     let sourceGrid = gridCore.create({ rows: 5 });
     let cg = _module.create({
       grid: sourceGrid,
@@ -474,11 +443,10 @@ describe('module smoke test', function () {
 
     let x = 1, y = 1;
     cg.connectUndirected(x, y, "N");
-    cg.hasConnections(x, y).should.eql(true);
-    done();
+    assert.deepStrictEqual(cg.hasConnections(x, y), true);
   });
 
-  it('hasConnections for a cell that has an invalid direction should return false', function (done) {
+  it('hasConnections for a cell that has an invalid direction should return false', function() {
     let sourceGrid = gridCore.create({ rows: 5 });
     let cg = _module.create({
       grid: sourceGrid,
@@ -500,11 +468,10 @@ describe('module smoke test', function () {
 
     let x = 1, y = 1;
     cg.connectUndirected(x, y, "N");
-    cg.hasConnections(x, y).should.eql(false);
-    done();
+    assert.deepStrictEqual(cg.hasConnections(x, y), false);
   });
 
-  it('hasConnections for a cell that has no directions should return false', function (done) {
+  it('hasConnections for a cell that has no directions should return false', function() {
     let sourceGrid = gridCore.create({ rows: 5 });
     let cg = _module.create({
       grid: sourceGrid,
@@ -526,11 +493,10 @@ describe('module smoke test', function () {
 
     let x = 1, y = 1;
     cg.connectUndirected(x, y, "N");
-    cg.hasConnections(x, y).should.eql(false);
-    done();
+    assert.deepStrictEqual(cg.hasConnections(x, y), false);
   });
 
-  it('connectUndirected should return false if no opposite directions', function (done) {
+  it('connectUndirected should return false if no opposite directions', function() {
     let xSize = 5,
       ySize = 6;
     let sourceGrid = gridSquare.create({ x: xSize, y: ySize });
@@ -549,11 +515,10 @@ describe('module smoke test', function () {
     let tX = 0;
     let tY = 0;
     // base class doesn't define neighbors
-    cg.connectUndirected(tX, tY, "S").should.eql(false);
-    done();
+    assert.deepStrictEqual(cg.connectUndirected(tX, tY, "S"), false);
   });
 
-  it('open for a non-string direction should return false', function (done) {
+  it('open for a non-string direction should return false', function() {
     let sourceGrid = gridCore.create({ rows: 5 });
     let cg = _module.create({
       grid: sourceGrid,
@@ -561,11 +526,10 @@ describe('module smoke test', function () {
       oppositeMap: _oppositeMap
     });
     cg.set(0, 0, 0);
-    cg.open(0, 0, 1).should.eql(false);
-    done();
+    assert.deepStrictEqual(cg.open(0, 0, 1), false);
   });
 
-  it('connect for a non-string direction should return false', function (done) {
+  it('connect for a non-string direction should return false', function() {
     let sourceGrid = gridCore.create({ rows: 5 });
     let cg = _module.create({
       grid: sourceGrid,
@@ -573,11 +537,10 @@ describe('module smoke test', function () {
       oppositeMap: _oppositeMap
     });
     cg.set(0, 0, 0);
-    cg.connect(0, 0, 1).should.eql(false);
-    done();
+    assert.deepStrictEqual(cg.connect(0, 0, 1), false);
   });
 
-  it('connect for a valid cell and direction should return true', function (done) {
+  it('connect for a valid cell and direction should return true', function() {
     let sourceGrid = gridCore.create({ rows: 5 });
     let cg = _module.create({
       grid: sourceGrid,
@@ -595,11 +558,10 @@ describe('module smoke test', function () {
     cg.getNeighborDirs = mockGetNeighborDirs;
 
     let x = 1, y = 1;
-    cg.connect(x, y, "N").should.eql(true);
-    done();
+    assert.deepStrictEqual(cg.connect(x, y, "N"), true);
   });
 
-  it('connectsAny for a cell that has connections should return true', function (done) {
+  it('connectsAny for a cell that has connections should return true', function() {
     let sourceGrid = gridCore.create({ rows: 5 });
 
     let cg = _module.create({
@@ -626,14 +588,13 @@ describe('module smoke test', function () {
 
     let x = 1, y = 1;
     cg.connectUndirected(x, y, "E");
-    cg.connectsAny(x, y, ["N", "E", "W", "S"]).should.eql(true);
-    cg.connectsAny(x, y, ["E", "W"]).should.eql(true);
-    cg.connectsAny(x, y, ["E"]).should.eql(true);
-    cg.connectsAny(x, y, ["N", "W", "S"]).should.not.eql(true);
-    done();
+    assert.deepStrictEqual(cg.connectsAny(x, y, ["N", "E", "W", "S"]), true);
+    assert.deepStrictEqual(cg.connectsAny(x, y, ["E", "W"]), true);
+    assert.deepStrictEqual(cg.connectsAny(x, y, ["E"]), true);
+    assert.notDeepStrictEqual(cg.connectsAny(x, y, ["N", "W", "S"]), true);
   });
 
-  it('connectsAny for a list of non-sensical directions should return false', function (done) {
+  it('connectsAny for a list of non-sensical directions should return false', function() {
     let sourceGrid = gridCore.create({ rows: 5 });
     let cg = _module.create({
       grid: sourceGrid,
@@ -652,11 +613,10 @@ describe('module smoke test', function () {
 
     let x = 1, y = 1;
     cg.connectUndirected(x, y, "N");
-    cg.connectsAny(x, y, ["X", "Y", "Z"]).should.eql(false);
-    done();
+    assert.deepStrictEqual(cg.connectsAny(x, y, ["X", "Y", "Z"]), false);
   });
 
-  it('connectsAny for an empty list should return false', function (done) {
+  it('connectsAny for an empty list should return false', function() {
     let sourceGrid = gridCore.create({ rows: 5 });
     let cg = _module.create({
       grid: sourceGrid,
@@ -675,11 +635,10 @@ describe('module smoke test', function () {
 
     let x = 1, y = 1;
     cg.connectUndirected(x, y, "N");
-    cg.connectsAny(x, y, []).should.eql(false);
-    done();
+    assert.deepStrictEqual(cg.connectsAny(x, y, []), false);
   });
 
-  it('getMaxDistance should return max distance', function (done) {
+  it('getMaxDistance should return max distance', function() {
 
     let sourceGrid = gridCore.create({ rows: 5 });
 
@@ -714,13 +673,12 @@ describe('module smoke test', function () {
     console.log("S", n3);
     let d = cg.getMaxDistance(startX,startY);
     console.log(d);
-    d.x.should.eql(3);
-    d.y.should.eql(2);
-    d.distance.should.eql(3);
-    done();
+    assert.deepStrictEqual(d.x, 3);
+    assert.deepStrictEqual(d.y, 2);
+    assert.deepStrictEqual(d.distance, 3);
   });
 
-  it('isLeaf should return true or false for deadend', function (done) {
+  it('isLeaf should return true or false for deadend', function() {
 
     let sourceGrid = gridCore.create({ rows: 5 });
 
@@ -753,14 +711,13 @@ describe('module smoke test', function () {
     cg.connectUndirected( n2.x, n2.y, "S");
     let n3 = cg.getNeighbor(n2.x, n2.y, "S");
     console.log("S", n3);
-    cg.isLeaf(startX, startY).should.eql(true);
-    cg.isLeaf(n1.x, n1.y).should.eql(false);
-    cg.isLeaf(n2.x, n2.y).should.eql(false);
-    cg.isLeaf(n3.x, n3.y).should.eql(true);
-    done();
+    assert.deepStrictEqual(cg.isLeaf(startX, startY), true);
+    assert.deepStrictEqual(cg.isLeaf(n1.x, n1.y), false);
+    assert.deepStrictEqual(cg.isLeaf(n2.x, n2.y), false);
+    assert.deepStrictEqual(cg.isLeaf(n3.x, n3.y), true);
   });
 
-  it('connectionCount should return number of connections', function (done) {
+  it('connectionCount should return number of connections', function() {
 
     let sourceGrid = gridCore.create({ rows: 5 });
 
@@ -796,15 +753,14 @@ describe('module smoke test', function () {
     cg.connectUndirected( n2.x, n2.y, "S");
     let n3 = cg.getNeighbor(n2.x, n2.y, "S");
     console.log("S", n3);
-    cg.connectionCount(startX, startY).should.eql(2);
-    cg.connectionCount(n1n.x, n1n.y).should.eql(2);
-    cg.connectionCount(n1s.x, n1s.y).should.eql(1);
-    cg.connectionCount(n2.x, n2.y).should.eql(2);
-    cg.connectionCount(n3.x, n3.y).should.eql(1);
-    done();
+    assert.deepStrictEqual(cg.connectionCount(startX, startY), 2);
+    assert.deepStrictEqual(cg.connectionCount(n1n.x, n1n.y), 2);
+    assert.deepStrictEqual(cg.connectionCount(n1s.x, n1s.y), 1);
+    assert.deepStrictEqual(cg.connectionCount(n2.x, n2.y), 2);
+    assert.deepStrictEqual(cg.connectionCount(n3.x, n3.y), 1);
   });
 
-  it('disconnect should remove the connection for a cell (one way)', function (done) {
+  it('disconnect should remove the connection for a cell (one way)', function() {
     let sourceGrid = gridCore.create({ rows: 5 });
     let cg = _module.create({
       grid: sourceGrid,
@@ -823,13 +779,12 @@ describe('module smoke test', function () {
 
     let x = 1, y = 1;
     cg.connect(x, y, "N");
-    cg.hasConnections(x, y).should.eql(true);
+    assert.deepStrictEqual(cg.hasConnections(x, y), true);
     cg.disconnect(x, y, "N");
-    cg.hasConnections(x, y).should.eql(false);
-    done();
+    assert.deepStrictEqual(cg.hasConnections(x, y), false);
   });
 
-  it('disconnectUndirected should remove connection from both cells', function (done) {
+  it('disconnectUndirected should remove connection from both cells', function() {
     let sourceGrid = gridCore.create({ rows: 5 });
     let cg = _module.create({
       grid: sourceGrid,
@@ -848,15 +803,14 @@ describe('module smoke test', function () {
 
     let x = 1, y = 1;
     cg.connectUndirected(x, y, "N");
-    cg.hasConnections(x, y).should.eql(true);
-    cg.hasConnections(x, y - 1).should.eql(true);
+    assert.deepStrictEqual(cg.hasConnections(x, y), true);
+    assert.deepStrictEqual(cg.hasConnections(x, y - 1), true);
     cg.disconnectUndirected(x, y, "N");
-    cg.hasConnections(x, y).should.eql(false);
-    cg.hasConnections(x, y - 1).should.eql(false);
-    done();
+    assert.deepStrictEqual(cg.hasConnections(x, y), false);
+    assert.deepStrictEqual(cg.hasConnections(x, y - 1), false);
   });
 
-  it('reset should remove all connection from both cells and flags from target', function (done) {
+  it('reset should remove all connection from both cells and flags from target', function() {
     let sourceGrid = gridCore.create({ rows: 5 });
     let cg = _module.create({
       grid: sourceGrid,
@@ -875,28 +829,27 @@ describe('module smoke test', function () {
 
     let x = 1, y = 1;
     cg.connectUndirected(x, y, "N");
-    cg.hasConnections(x, y).should.eql(true);
-    cg.hasConnections(x, y - 1).should.eql(true);
+    assert.deepStrictEqual(cg.hasConnections(x, y), true);
+    assert.deepStrictEqual(cg.hasConnections(x, y - 1), true);
     cg.mask(x, y);
     cg.markVisited(x, y);
     cg.markRed(x, y);
     cg.markGreen(x, y);
-    cg.isMasked(x,y).should.equal(true);
-    cg.visited(x,y).should.eql(true);
-    cg.isRed(x,y).should.equal(true);
-    cg.isGreen(x,y).should.equal(true);
+    assert.deepStrictEqual(cg.isMasked(x,y), true);
+    assert.deepStrictEqual(cg.visited(x,y), true);
+    assert.deepStrictEqual(cg.isRed(x,y), true);
+    assert.deepStrictEqual(cg.isGreen(x,y), true);
     // Reset
     cg.reset(x, y);
-    cg.hasConnections(x, y).should.eql(false);
-    cg.hasConnections(x, y - 1).should.eql(false);
-    cg.isMasked(x,y).should.equal(false);
-    cg.visited(x,y).should.eql(false);
-    cg.isRed(x,y).should.equal(false);
-    cg.isGreen(x,y).should.equal(false);
-    done();
+    assert.deepStrictEqual(cg.hasConnections(x, y), false);
+    assert.deepStrictEqual(cg.hasConnections(x, y - 1), false);
+    assert.deepStrictEqual(cg.isMasked(x,y), false);
+    assert.deepStrictEqual(cg.visited(x,y), false);
+    assert.deepStrictEqual(cg.isRed(x,y), false);
+    assert.deepStrictEqual(cg.isGreen(x,y), false);
   });
 
-  it('clearAllVisited should clear all visited cells', function (done) {
+  it('clearAllVisited should clear all visited cells', function() {
     let xSize = 5,
       ySize = 6;
     let sourceGrid = gridSquare.create({ x: xSize, y: ySize });
@@ -909,16 +862,15 @@ describe('module smoke test', function () {
     let tY = 0;
     let VISITED = 0x01;
     let result = cg.markVisited(tX, tY);
-    result.should.eql(true);
-    cg.visited(tX, tY).should.eql(true);
-    cg.get(tX, tY).should.eql(VISITED);
+    assert.deepStrictEqual(result, true);
+    assert.deepStrictEqual(cg.visited(tX, tY), true);
+    assert.deepStrictEqual(cg.get(tX, tY), VISITED);
     cg.clearAllVisited(tX, tY);
-    cg.visited(tX, tY).should.eql(false)
-    cg.get(tX, tY).should.not.eql(VISITED);
-    done();
+    assert.deepStrictEqual(cg.visited(tX, tY), false);
+    assert.notDeepStrictEqual(cg.get(tX, tY), VISITED);
   });
 
-  it('clearAllMasks should clear all mask cells', function (done) {
+  it('clearAllMasks should clear all mask cells', function() {
     let xSize = 5,
       ySize = 6;
     let sourceGrid = gridSquare.create({ x: xSize, y: ySize });
@@ -931,16 +883,15 @@ describe('module smoke test', function () {
     let tY = 0;
     let MASKED = 0x02;
     let result = cg.mask(tX, tY);
-    result.should.eql(true);
-    cg.isMasked(tX, tY).should.eql(true);
-    cg.get(tX, tY).should.eql(MASKED);
+    assert.deepStrictEqual(result, true);
+    assert.deepStrictEqual(cg.isMasked(tX, tY), true);
+    assert.deepStrictEqual(cg.get(tX, tY), MASKED);
     cg.clearAllMasks(tX, tY);
-    cg.isMasked(tX, tY).should.eql(false)
-    cg.get(tX, tY).should.not.eql(MASKED);
-    done();
+    assert.deepStrictEqual(cg.isMasked(tX, tY), false);
+    assert.notDeepStrictEqual(cg.get(tX, tY), MASKED);
   });
 
-  it('clearAllRed should clear all red cells', function (done) {
+  it('clearAllRed should clear all red cells', function() {
     let xSize = 5,
       ySize = 6;
     let sourceGrid = gridSquare.create({ x: xSize, y: ySize });
@@ -953,16 +904,15 @@ describe('module smoke test', function () {
     let tY = 0;
     let RED = 0x04;
     let result = cg.markRed(tX, tY);
-    result.should.eql(true);
-    cg.isRed(tX, tY).should.eql(true);
-    cg.get(tX, tY).should.eql(RED);
+    assert.deepStrictEqual(result, true);
+    assert.deepStrictEqual(cg.isRed(tX, tY), true);
+    assert.deepStrictEqual(cg.get(tX, tY), RED);
     cg.clearAllRed(tX, tY);
-    cg.isRed(tX, tY).should.eql(false)
-    cg.get(tX, tY).should.not.eql(RED);
-    done();
+    assert.deepStrictEqual(cg.isRed(tX, tY), false);
+    assert.notDeepStrictEqual(cg.get(tX, tY), RED);
   });
 
-  it('clearAllGreen should clear all green cells', function (done) {
+  it('clearAllGreen should clear all green cells', function() {
     let xSize = 5,
       ySize = 6;
     let sourceGrid = gridSquare.create({ x: xSize, y: ySize });
@@ -975,13 +925,12 @@ describe('module smoke test', function () {
     let tY = 0;
     let GREEN = 0x08;
     let result = cg.markGreen(tX, tY);
-    result.should.eql(true);
-    cg.isGreen(tX, tY).should.eql(true);
-    cg.get(tX, tY).should.eql(GREEN);
+    assert.deepStrictEqual(result, true);
+    assert.deepStrictEqual(cg.isGreen(tX, tY), true);
+    assert.deepStrictEqual(cg.get(tX, tY), GREEN);
     cg.clearAllGreen(tX, tY);
-    cg.isGreen(tX, tY).should.eql(false)
-    cg.get(tX, tY).should.not.eql(GREEN);
-    done();
+    assert.deepStrictEqual(cg.isGreen(tX, tY), false);
+    assert.notDeepStrictEqual(cg.get(tX, tY), GREEN);
   });
 
 });
