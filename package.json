@@ -11,7 +11,7 @@
     "test": "node build.js && node --test $(find test -name '*-test.js' | sort)",
     "watch": "node build.js --watch",
     "test-debug": "node --test $(find test -name '*-test.js' | sort)",
-    "pubinit": "node build.js && npm publish --access public",
+    "pubinit": "node build.js && npm publish",
     "publish-pkg": "node build.js && npm version patch && git push --follow-tags && npm publish"
   },
   "repository": {
