@@ -6,8 +6,8 @@ Connection grid core
 
 <p align="left">
 
-  <a href="https://travis-ci.org/mitchallen/connection-grid-core">
-    <img src="https://img.shields.io/travis/mitchallen/connection-grid-core.svg?style=flat-square" alt="Version">
+  <a href="https://github.com/mitchallen/connection-grid-core/actions/workflows/ci.yml">
+    <img src="https://github.com/mitchallen/connection-grid-core/actions/workflows/ci.yml/badge.svg" alt="Build Status">
   </a>
   
   <a href="https://codecov.io/gh/mitchallen/connection-grid-core">
