@@ -14,16 +14,12 @@ Connection grid core
     <img src="https://codecov.io/gh/mitchallen/connection-grid-core/branch/master/graph/badge.svg" alt="Coverage Status">
   </a>
   
-  <a href="https://npmjs.org/package/@mitchallen/connection-grid-core">
-    <img src="http://img.shields.io/npm/v/@mitchallen/connection-grid-core.svg?style=flat-square" alt="Version">
+  <a href="https://github.com/mitchallen/connection-grid-core/pkgs/npm/connection-grid-core">
+    <img src="https://img.shields.io/github/v/tag/mitchallen/connection-grid-core.svg?label=version" alt="Version">
   </a>
   
-  <a href="https://npmjs.org/package/@mitchallen/connection-grid-core">
+  <a href="https://github.com/mitchallen/connection-grid-core/blob/master/LICENSE">
     <img src="https://img.shields.io/github/license/mitchallen/connection-grid-core.svg">
-  </a>
-
-  <a href="https://www.jsdelivr.com/package/npm/@mitchallen/connection-grid-core">
-    <img src="https://data.jsdelivr.com/v1/package/npm/@mitchallen/connection-grid-core/badge" alt="jsdelivr">
   </a>
   
 </p>
