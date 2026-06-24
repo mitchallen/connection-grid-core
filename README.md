@@ -32,21 +32,26 @@ This package — and its `@mitchallen` dependencies — is published to the
 authentication for every install, even though the packages are public, so you
 need a GitHub personal access token with the `read:packages` scope.
 
-1. Export your token:
-
-       export NODE_AUTH_TOKEN=ghp_your_token_here
-
-2. Add an `.npmrc` to your project so the `@mitchallen` scope resolves from
-   GitHub Packages:
+1. Route the `@mitchallen` scope to GitHub Packages in your project `.npmrc`.
+   This line has no secret and is safe to commit:
 
        @mitchallen:registry=https://npm.pkg.github.com
-       //npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}
+
+2. Add your token to your **user** `~/.npmrc` so it never lands in the repo:
+
+       npm config set //npm.pkg.github.com/:_authToken=YOUR_TOKEN --location=user
+
+   Do **not** put the `_authToken` line in the project `.npmrc` — if it is
+   committed, your token is exposed. In CI, set the `NODE_AUTH_TOKEN`
+   environment variable and reference it with
+   `//npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}` instead.
 
 3. Install:
 
        $ npm install @mitchallen/connection-grid-core --save
 
-> Tip: with the GitHub CLI, `export NODE_AUTH_TOKEN="$(gh auth token)"`
+> Tip: with the GitHub CLI you can use
+> `npm config set //npm.pkg.github.com/:_authToken="$(gh auth token)" --location=user`
 > (after `gh auth refresh --scopes read:packages`).
   
 * * *
