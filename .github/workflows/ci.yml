@@ -12,6 +12,7 @@ jobs:
     permissions:
       contents: read
       packages: read
+      id-token: write
     steps:
       - uses: actions/checkout@v4
 
@@ -25,4 +26,12 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - run: npm test
+      - run: npm run coverage
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          use_oidc: true
+          files: ./lcov.info
+          slug: mitchallen/connection-grid-core
+          fail_ci_if_error: false

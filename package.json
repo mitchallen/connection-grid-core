@@ -9,6 +9,7 @@
     "build": "node build.js",
     "lint": "eslint src/",
     "test": "node build.js && node --test $(find test -name '*-test.js' | sort)",
+    "coverage": "node build.js && node --test --experimental-test-coverage --test-coverage-exclude='test/**' --test-reporter=spec --test-reporter-destination=stdout --test-reporter=lcov --test-reporter-destination=lcov.info $(find test -name '*-test.js' | sort)",
     "watch": "node build.js --watch",
     "test-debug": "node --test $(find test -name '*-test.js' | sort)",
     "pubinit": "node build.js && npm publish",
