@@ -933,4 +933,87 @@ describe('module smoke test', function () {
     assert.notDeepStrictEqual(cg.get(tX, tY), GREEN);
   });
 
+  // --- coverage: guard and defensive paths ---
+
+  const makeGrid = () => {
+    let cg = _module.create({
+      grid: gridCore.create({ rows: 5 }),
+      dirMap: _dirMap,
+      oppositeMap: _oppositeMap
+    });
+    for (let i = 0; i < 5; i++)
+      for (let j = 0; j < 5; j++) cg.set(i, j, 0);
+    cg.getNeighbor = mockGetNeighbor;
+    cg.getNeighborDirs = mockGetNeighborDirs;
+    return cg;
+  };
+
+  it('flag/red/green/reset helpers return false for an invalid cell', function() {
+    let cg = makeGrid();
+    assert.deepStrictEqual(cg.setFlag(-1, -1, 0x01), false);
+    assert.deepStrictEqual(cg.clearFlag(-1, -1, 0x01), false);
+    assert.deepStrictEqual(cg.isFlagSet(-1, -1, 0x01), false);
+    assert.deepStrictEqual(cg.isRed(-1, -1), false);
+    assert.deepStrictEqual(cg.isGreen(-1, -1), false);
+    assert.deepStrictEqual(cg.reset(-1, -1), false);
+  });
+
+  it('close returns false for an invalid direction', function() {
+    let cg = makeGrid();
+    assert.deepStrictEqual(cg.close(0, 0, "ZZ"), false);
+  });
+
+  it('disconnectUndirected returns false when the neighbor cannot disconnect', function() {
+    let cg = makeGrid();
+    // asymmetric neighbor: (0,0)->E exists, but (1,0)->W does not
+    cg.getNeighbor = function(x, y, dir) {
+      if (x === 0 && y === 0 && dir === "E") return { x: 1, y: 0 };
+      return null;
+    };
+    assert.deepStrictEqual(cg.disconnectUndirected(0, 0, "E"), false);
+  });
+
+  it('getMaxDistance returns origin for a cell with no connections', function() {
+    let cg = makeGrid();
+    let d = cg.getMaxDistance(0, 0);
+    assert.deepStrictEqual(d.distance, 0);
+  });
+
+  it('getDistance stops on an unknown neighbor direction', function() {
+    let cg = makeGrid();
+    cg.getNeighborDirs = () => ["E", "ZZ"];
+    cg.open(0, 0, "E");
+    let orig = console.error; console.error = () => {};
+    cg.getMaxDistance(0, 0);
+    console.error = orig;
+  });
+
+  it('getDistance stops when a connected neighbor does not exist', function() {
+    let cg = makeGrid();
+    cg.getNeighborDirs = () => ["E"];
+    cg.getNeighbor = () => ({ x: -1, y: 0 });
+    cg.open(0, 0, "E");
+    cg.getMaxDistance(0, 0);
+  });
+
+  it('connectionCount handles no connections and unknown directions', function() {
+    let cg = makeGrid();
+    assert.deepStrictEqual(cg.connectionCount(2, 2), undefined);
+    cg.getNeighborDirs = () => ["E", "ZZ"];
+    cg.open(0, 0, "E");
+    let orig = console.error; console.error = () => {};
+    let result = cg.connectionCount(0, 0);
+    console.error = orig;
+    assert.deepStrictEqual(result, 0);
+  });
+
+  it('reset returns false on an unknown direction', function() {
+    let cg = makeGrid();
+    cg.getNeighborDirs = () => ["ZZ"];
+    let orig = console.error; console.error = () => {};
+    let result = cg.reset(0, 0);
+    console.error = orig;
+    assert.deepStrictEqual(result, false);
+  });
+
 });
