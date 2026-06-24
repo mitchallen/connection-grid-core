@@ -1,6 +1,6 @@
 {
   "name": "@mitchallen/connection-grid-core",
-  "version": "0.1.22",
+  "version": "0.1.23",
   "description": "Connection grid core",
   "main": "src/index.js",
   "browser": "dist/connection-grid-core.min.js",
