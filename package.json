@@ -3,6 +3,10 @@
   "version": "0.1.23",
   "description": "Connection grid core",
   "main": "src/index.js",
+  "files": [
+    "src",
+    "dist"
+  ],
   "browser": "dist/connection-grid-core.min.js",
   "scripts": {
     "start": "node src/index.js",
