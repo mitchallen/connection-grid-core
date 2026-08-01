@@ -90,8 +90,8 @@ let cg = gridFactory.create({
     <meta charset="utf-8">
     <title>Connection-Grid-Core Example</title>
     <meta name="description" content="Connection Grid Core Example">
-    <script src="https://cdn.jsdelivr.net/gh/mitchallen/connection-grid-core@v0.1.25/dist/connection-grid-core.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/mitchallen/grid-square@v0.1.13/dist/grid-square.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/mitchallen/connection-grid-core@v0.1.26/dist/connection-grid-core.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/mitchallen/grid-square@v0.1.14/dist/grid-square.min.js"></script>
     <script>
       var factory = window.MitchAllen.ConnectionGridCore;
       var squareFactory = window.MitchAllen.GridSquare;
