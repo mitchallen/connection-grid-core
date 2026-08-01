@@ -2,92 +2,34 @@
 var MitchAllen = MitchAllen || {};
 MitchAllen.ConnectionGridCore = (() => {
   var __getOwnPropNames = Object.getOwnPropertyNames;
-  var __require = /* @__PURE__ */ ((x) => typeof require !== "undefined" ? require : typeof Proxy !== "undefined" ? new Proxy(x, {
-    get: (a, b) => (typeof require !== "undefined" ? require : a)[b]
-  }) : x)(function(x) {
-    if (typeof require !== "undefined") return require.apply(this, arguments);
-    throw Error('Dynamic require of "' + x + '" is not supported');
-  });
-  var __commonJS = (cb, mod) => function __require2() {
-    return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
+  var __commonJS = (cb, mod) => function __require() {
+    try {
+      return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
+    } catch (e) {
+      throw mod = 0, e;
+    }
   };
 
-  // node_modules/@mitchallen/shuffle/dist/shuffle.js
-  var require_shuffle = __commonJS({
-    "node_modules/@mitchallen/shuffle/dist/shuffle.js"(exports, module) {
-      (function(f) {
-        if (typeof exports === "object" && typeof module !== "undefined") {
-          module.exports = f();
-        } else if (typeof define === "function" && define.amd) {
-          define([], f);
-        } else {
-          var g;
-          if (typeof window !== "undefined") {
-            g = window;
-          } else if (typeof global !== "undefined") {
-            g = global;
-          } else if (typeof self !== "undefined") {
-            g = self;
-          } else {
-            g = this;
-          }
-          (g.MitchAllen || (g.MitchAllen = {})).Shuffle = f();
-        }
-      })(function() {
-        var define2, module2, exports2;
-        return (function e(t, n, r) {
-          function s(o2, u) {
-            if (!n[o2]) {
-              if (!t[o2]) {
-                var a = typeof __require == "function" && __require;
-                if (!u && a) return a(o2, true);
-                if (i) return i(o2, true);
-                var f = new Error("Cannot find module '" + o2 + "'");
-                throw f.code = "MODULE_NOT_FOUND", f;
-              }
-              var l = n[o2] = { exports: {} };
-              t[o2][0].call(l.exports, function(e2) {
-                var n2 = t[o2][1][e2];
-                return s(n2 ? n2 : e2);
-              }, l, l.exports, e, t, n, r);
-            }
-            return n[o2].exports;
-          }
-          var i = typeof __require == "function" && __require;
-          for (var o = 0; o < r.length; o++) s(r[o]);
-          return s;
-        })({ 1: [function(_dereq_, module3, exports3) {
-          "use strict";
-          module3.exports.create = function(spec) {
-            if (!spec) {
-              return null;
-            }
-            if (!spec.array) {
-              return null;
-            }
-            var _array = spec.array.slice(0);
-            return {
-              shuffle: function shuffle() {
-                var i = 0, j = 0, temp = null;
-                for (i = _array.length - 1; i > 0; i -= 1) {
-                  j = Math.floor(Math.random() * (i + 1));
-                  temp = _array[i];
-                  _array[i] = _array[j];
-                  _array[j] = temp;
-                }
-                return _array;
-              }
-            };
-          };
-        }, {}] }, {}, [1])(1);
-      });
+  // node_modules/@mitchallen/shuffle/dist/shuffle.cjs.js
+  var require_shuffle_cjs = __commonJS({
+    "node_modules/@mitchallen/shuffle/dist/shuffle.cjs.js"(exports, module) {
+      "use strict";
+      module.exports.create = (a) => {
+        if (!a || !a.array) return null;
+        var r = a.array.slice(0);
+        return { shuffle: function() {
+          var t = 0, n = 0, e = null;
+          for (t = r.length - 1; t > 0; t -= 1) n = Math.floor(Math.random() * (t + 1)), e = r[t], r[t] = r[n], r[n] = e;
+          return r;
+        } };
+      };
     }
   });
 
   // src/index.js
   var require_index = __commonJS({
     "src/index.js"(exports, module) {
-      var shuffleFactory = require_shuffle();
+      var shuffleFactory = require_shuffle_cjs();
       module.exports.create = (spec) => {
         spec = spec || {};
         var _grid = spec.grid;

@@ -1,13 +1,12 @@
 {
   "name": "@mitchallen/connection-grid-core",
-  "version": "0.1.24",
+  "version": "0.1.25",
   "description": "Connection grid core",
   "main": "src/index.js",
   "files": [
     "src",
     "dist"
   ],
-  "browser": "dist/connection-grid-core.min.js",
   "scripts": {
     "start": "node src/index.js",
     "build": "node build.js",
@@ -26,7 +25,7 @@
   "author": "Mitch Allen <npm@mitchallen.com> (http://mitchallen.com)",
   "license": "MIT",
   "dependencies": {
-    "@mitchallen/shuffle": "^0.1.10"
+    "@mitchallen/shuffle": "^0.1.14"
   },
   "devDependencies": {
     "@mitchallen/grid-core": "^0.1.10",

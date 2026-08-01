@@ -7,6 +7,10 @@ const base = {
   entryPoints: ['./src/index.js'],
   bundle: true,
   platform: 'browser',
+  // Resolve deps via "main", not "browser": sibling @mitchallen packages used to
+  // point "browser" at a global-assigning IIFE that exports nothing, which
+  // bundles as an empty module.
+  mainFields: ['main'],
   globalName: 'MitchAllen.ConnectionGridCore',
   format: 'iife',
   target: ['es2017'],
