@@ -15,8 +15,8 @@
     "coverage": "node build.js && node --test --experimental-test-coverage --test-coverage-exclude='test/**' --test-reporter=spec --test-reporter-destination=stdout --test-reporter=lcov --test-reporter-destination=lcov.info $(find test -name '*-test.js' | sort)",
     "watch": "node build.js --watch",
     "test-debug": "node --test $(find test -name '*-test.js' | sort)",
-    "pubinit": "node build.js && npm publish",
-    "publish-pkg": "node build.js && npm version patch && git push --follow-tags && npm publish"
+    "pubinit": "npm test && node scripts/check-pack.js && npm publish",
+    "publish-pkg": "npm test && node scripts/check-pack.js && npm version patch && npm publish && git push --follow-tags"
   },
   "repository": {
     "type": "git",
