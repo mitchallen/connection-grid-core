@@ -11,14 +11,14 @@ Connection grid core
   </a>
   
   <a href="https://codecov.io/gh/mitchallen/connection-grid-core">
-    <img src="https://codecov.io/gh/mitchallen/connection-grid-core/branch/master/graph/badge.svg" alt="Coverage Status">
+    <img src="https://codecov.io/gh/mitchallen/connection-grid-core/branch/main/graph/badge.svg" alt="Coverage Status">
   </a>
   
   <a href="https://github.com/mitchallen/connection-grid-core/pkgs/npm/connection-grid-core">
     <img src="https://img.shields.io/github/v/tag/mitchallen/connection-grid-core.svg?label=version" alt="Version">
   </a>
   
-  <a href="https://github.com/mitchallen/connection-grid-core/blob/master/LICENSE">
+  <a href="https://github.com/mitchallen/connection-grid-core/blob/main/LICENSE">
     <img src="https://img.shields.io/github/license/mitchallen/connection-grid-core.svg">
   </a>
   
